@@ -38,10 +38,10 @@ include ../../common/examples-common.inc
 all:	release test
 
 release: src/Evolution.cpp src/Update_state.cpp src/Game_of_life.cpp
-	$(CXX) -O2 -DNDEBUG -D_CONSOLE $(CXXFLAGS) -o $(PROG) $^ -ltbb $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O2 -DNDEBUG -D_CONSOLE $(CXXFLAGS) -o $(PROG) $^ $(TBB_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 debug: src/Evolution.cpp src/Update_state.cpp src/Game_of_life.cpp
-	$(CXX) -O0 -D_CONSOLE -g -DTBB_USE_DEBUG $(CXXFLAGS) -o $(PROG) $^ -ltbb_debug $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O0 -D_CONSOLE -g -DTBB_USE_DEBUG $(CXXFLAGS) -o $(PROG) $^ $(TBB_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 clean:
 	rm -f $(PROG) *.o *.d

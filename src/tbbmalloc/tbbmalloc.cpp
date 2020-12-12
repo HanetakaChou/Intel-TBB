@@ -36,19 +36,6 @@ namespace internal {
 #define DEBUG_SUFFIX
 #endif /* TBB_USE_DEBUG */
 
-// MALLOCLIB_NAME is the name of the TBB memory allocator library.
-#if _WIN32||_WIN64
-#define MALLOCLIB_NAME "tbbmalloc" DEBUG_SUFFIX ".dll"
-#elif __APPLE__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".dylib"
-#elif __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __sun || _AIX || __ANDROID__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".so"
-#elif __linux__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX  __TBB_STRING(.so.TBB_COMPATIBLE_INTERFACE_VERSION)
-#else
-#error Unknown OS
-#endif
-
 void init_tbbmalloc() {
 #if DO_ITT_NOTIFY
     MallocInitializeITT();
@@ -88,8 +75,6 @@ struct RegisterProcessShutdownNotification {
 // Work around non-reentrancy in dlopen() on Android
 #if !__TBB_USE_DLOPEN_REENTRANCY_WORKAROUND
     RegisterProcessShutdownNotification() {
-        // prevents unloading, POSIX case
-        dlopen(MALLOCLIB_NAME, RTLD_NOW);
     }
 #endif /* !__TBB_USE_DLOPEN_REENTRANCY_WORKAROUND */
     ~RegisterProcessShutdownNotification() {

@@ -37,7 +37,6 @@
 
 #define __TBB_SOURCE_DIRECTLY_INCLUDED 1
 #include "../tbb/tbb_main.cpp"
-#include "../tbb/dynamic_link.cpp"
 #include "../tbb/tbb_misc_ex.cpp"
 
 // Tasking subsystem files

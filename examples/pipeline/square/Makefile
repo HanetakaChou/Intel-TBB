@@ -42,10 +42,10 @@ include ../../common/examples-common.inc
 all:	release test
 
 release: $(SOURCES)
-	$(CXX) -O2 -DNDEBUG $(CXXFLAGS) -o $(PROG) $^ -ltbb $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O2 -DNDEBUG $(CXXFLAGS) -o $(PROG) $^ $(TBB_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 debug: $(SOURCES)
-	$(CXX) -O0 -g -DTBB_USE_DEBUG $(CXXFLAGS) -o $(PROG) $^ -ltbb_debug $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O0 -g -DTBB_USE_DEBUG $(CXXFLAGS) -o $(PROG) $^ $(TBB_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 clean:
 	$(RM) $(PROG) *.o *.d input.txt output.txt
@@ -54,7 +54,7 @@ test:
 	$(run_cmd) ./$(PROG) $(ARGS)
 
 perf_build: $(SOURCES)
-	$(CXX) -O2 -msse2 -DNDEBUG $(CXXFLAGS) -o $(PROG) $^ -ltbb $(LIBS)
+	$(CXX) -O2 -msse2 -DNDEBUG $(CXXFLAGS) -o $(PROG) $^ $(TBB_LINK_FLAG) $(LIBS)
 
 perf_run:
 	$(run_cmd) ./$(PROG) $(PERF_RUN_ARGS)

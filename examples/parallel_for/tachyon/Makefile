@@ -136,9 +136,9 @@ ifeq ($(ADD_TBB),1)
 MYCXXFLAGS +=
 ifeq ($(ADD_DEBUG),1)
 MYCXXFLAGS += -DTBB_USE_DEBUG
-LIBS += -ltbb_debug
+LIBS += $(TBB_LINK_FLAG)
 else
-LIBS += -ltbb
+LIBS += $(TBB_LINK_FLAG)
 endif
 endif
 

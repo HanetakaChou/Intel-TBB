@@ -32,3 +32,5 @@ else
     endif
 endif
 
+TBB_LINK_FLAG = -lpt_tbb
+TBBMALLOC_LINK_FLAG = -lpt_tbbmalloc

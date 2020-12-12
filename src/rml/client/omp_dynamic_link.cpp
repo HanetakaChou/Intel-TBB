@@ -16,5 +16,4 @@
 
 #include "omp_dynamic_link.h"
 #include "library_assert.h"
-#include "tbb/dynamic_link.cpp" // Refers to src/tbb, not include/tbb
 

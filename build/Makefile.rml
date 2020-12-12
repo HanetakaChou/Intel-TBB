@@ -21,9 +21,9 @@ TEST_RESOURCE = $(RML.RES)
 include $(tbb_root)/build/common.inc
 DEBUG_SUFFIX=$(findstring _debug,_$(cfg))
 
-ifeq (android,$(target))
-$(error "RML is not supported on Android")
-endif
+# ifeq (android,$(target))
+# $(error "RML is not supported on Android")
+# endif
 
 # default target
 default_rml: rml rml_test
@@ -44,7 +44,7 @@ include $(tbb_root)/build/common_rules.inc
 RML_SERVER.OBJ = rml_server.$(OBJ)
 
 # Object files that RML clients need
-RML_TBB_CLIENT.OBJ ?= rml_tbb.$(OBJ) dynamic_link_rml.$(OBJ)
+RML_TBB_CLIENT.OBJ ?= rml_tbb.$(OBJ)
 RML_OMP_CLIENT.OBJ ?= rml_omp.$(OBJ) omp_dynamic_link.$(OBJ)
 
 RML.OBJ = $(RML_SERVER.OBJ) $(RML_TBB_CLIENT.OBJ) $(RML_OMP_CLIENT.OBJ)
@@ -55,8 +55,8 @@ ifeq (linux,$(tbb_os))
 RML_ASM.OBJ = $(if $(findstring ia64,$(arch)),$(TBB_ASM.OBJ))
 endif
 
-RML_TBB_DEP= cache_aligned_allocator_rml.$(OBJ) dynamic_link_rml.$(OBJ) concurrent_vector_rml.$(OBJ) semaphore_rml.$(OBJ) tbb_misc_rml.$(OBJ) tbb_misc_ex_rml.$(OBJ)
-TBB_DEP_NON_RML_TEST?= cache_aligned_allocator_rml.$(OBJ) dynamic_link_rml.$(OBJ) $(RML_ASM.OBJ) tbb_misc_rml.$(OBJ) tbb_misc_ex_rml.$(OBJ)
+RML_TBB_DEP= cache_aligned_allocator_rml.$(OBJ) concurrent_vector_rml.$(OBJ) semaphore_rml.$(OBJ) tbb_misc_rml.$(OBJ) tbb_misc_ex_rml.$(OBJ)
+TBB_DEP_NON_RML_TEST?= cache_aligned_allocator_rml.$(OBJ) $(RML_ASM.OBJ) tbb_misc_rml.$(OBJ) tbb_misc_ex_rml.$(OBJ)
 ifeq ($(cfg),debug)
 RML_TBB_DEP+= spin_mutex_rml.$(OBJ)
 TBB_DEP_RML_TEST?= $(RML_ASM.OBJ) tbb_misc_rml.$(OBJ)
@@ -104,18 +104,27 @@ ifneq (,$(RML.DEF))
 rml.def: $(RML.DEF)
 	$(CPLUS) $(PREPROC_ONLY) $< $(CPLUS_FLAGS) $(INCLUDES) > $@
 
+ifneq (ios,$(target))
 LIB_LINK_FLAGS += $(EXPORT_KEY)rml.def
+endif
+
 $(RML.DLL): rml.def
 endif
 
+ifneq (ios,$(target))
+LIB_LINK_FLAGS += -L. -lpt_tbbmalloc
+endif
+
+
 $(RML.DLL): CPLUS_FLAGS += $(SDL_FLAGS)
 $(RML.DLL): BUILDING_LIBRARY = $(RML.DLL)
+
+ifeq (ios,$(target))
+$(RML.DLL): $(RML_TBB_DEP) $(RML_SERVER.OBJ) $(RML.RES) $(RML_NO_VERSION.DLL) $(RML_ASM.OBJ)
+	$(IOS_LIB_LINK_CMD) $(LIB_OUTPUT_KEY)$(RML.DLL) $(RML_SERVER.OBJ) $(RML_TBB_DEP) $(RML_ASM.OBJ) $(RML.RES) $(LIB_LINK_FLAGS)
+else
 $(RML.DLL): $(RML_TBB_DEP) $(RML_SERVER.OBJ) $(RML.RES) $(RML_NO_VERSION.DLL) $(RML_ASM.OBJ)
 	$(LIB_LINK_CMD) $(LIB_OUTPUT_KEY)$(RML.DLL) $(RML_SERVER.OBJ) $(RML_TBB_DEP) $(RML_ASM.OBJ) $(RML.RES) $(LIB_LINK_LIBS) $(LIB_LINK_FLAGS)
-
-ifneq (,$(RML_NO_VERSION.DLL))
-$(RML_NO_VERSION.DLL):
-	echo "INPUT ($(RML.DLL))" > $(RML_NO_VERSION.DLL)
 endif
 
 rml: $(RML.DLL) $(RML_TBB_CLIENT.OBJ) $(RML_OMP_CLIENT.OBJ)

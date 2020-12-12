@@ -2920,14 +2920,14 @@ extern "C" void __TBB_mallocProcessShutdownNotification(bool windows_process_dyi
         MALLOC_ITT_FINI_ITTLIB();
 }
 
-extern "C" void * scalable_malloc(size_t size)
+extern "C" __TBB_DLL_EXPORT void * scalable_malloc(size_t size)
 {
     void *ptr = internalMalloc(size);
     if (!ptr) errno = ENOMEM;
     return ptr;
 }
 
-extern "C" void scalable_free(void *object)
+extern "C" __TBB_DLL_EXPORT void scalable_free(void *object)
 {
     internalFree(object);
 }
@@ -3088,7 +3088,7 @@ extern "C" int scalable_posix_memalign(void **memptr, size_t alignment, size_t s
     return 0;
 }
 
-extern "C" void * scalable_aligned_malloc(size_t size, size_t alignment)
+extern "C" __TBB_DLL_EXPORT void * scalable_aligned_malloc(size_t size, size_t alignment)
 {
     if (!isPowerOfTwo(alignment) || 0==size) {
         errno = EINVAL;
@@ -3099,7 +3099,7 @@ extern "C" void * scalable_aligned_malloc(size_t size, size_t alignment)
     return tmp;
 }
 
-extern "C" void * scalable_aligned_realloc(void *ptr, size_t size, size_t alignment)
+extern "C" __TBB_DLL_EXPORT void * scalable_aligned_realloc(void *ptr, size_t size, size_t alignment)
 {
     if (!isPowerOfTwo(alignment)) {
         errno = EINVAL;
@@ -3171,7 +3171,7 @@ extern "C" void * __TBB_malloc_safer_aligned_realloc(void *ptr, size_t size, siz
     return tmp;
 }
 
-extern "C" void scalable_aligned_free(void *ptr)
+extern "C" __TBB_DLL_EXPORT void scalable_aligned_free(void *ptr)
 {
     internalFree(ptr);
 }

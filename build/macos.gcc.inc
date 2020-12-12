@@ -60,6 +60,9 @@ endif
 
 CPLUS_FLAGS += -DUSE_PTHREAD $(ITT_NOTIFY)
 
+C_FLAGS += -fvisibility=hidden
+CPLUS_FLAGS += -fvisibility=hidden
+
 ifeq (intel64,$(arch))
     ITT_NOTIFY = -DDO_ITT_NOTIFY
     CPLUS_FLAGS += -m64

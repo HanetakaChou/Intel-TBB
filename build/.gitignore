@@ -1,0 +1,51 @@
+
+
+# common.inc
+# tbb_build_prefix?=$(tbb_os)_$(arch)_$(compiler_name)_$(runtime)$(CPF_SUFFIX)
+
+# linux.inc
+# runtime:=cc$(gcc_version)_libc$(os_glibc_version)_kernel$(os_kernel_version)
+
+
+linux_intel64_gcc_cc*_libc*_kernel*_release
+linux_intel64_gcc_cc*_libc*_kernel*_debug
+
+linux_ia32_gcc_cc*_libc*_kernel*_release
+linux_ia32_gcc_cc*_libc*_kernel*_debug
+
+linux_intel64_clang_cc*_libc*_kernel*_release
+linux_intel64_clang_cc*_libc*_kernel*_debug
+
+linux_ia32_clang_cc*_libc*_kernel*_release
+linux_ia32_clang_cc*_libc*_kernel*_debug
+
+# --- android ---
+
+android-ndk-r14b
+
+linux_arm_gcc_android*_NDK*_version*_debug
+
+linux_arm64_gcc_android*_NDK*_version*_debug
+
+linux_arm_clang_android*_NDK*_version*_debug
+linux_arm_clang_android*_NDK*_version*_release
+
+linux_arm64_clang_android*_NDK*_version*_debug
+linux_arm64_clang_android*_NDK*_version*_release
+
+linux_intel64_clang_android*_NDK*_version*_release
+linux_intel64_clang_android*_NDK*_version*_debug
+
+linux_ia32_clang_android*_NDK*_version*_release
+linux_ia32_clang_android*_NDK*_version*_debug
+
+# --- mach --- 
+macos_intel64_clang_cc*_os*_release
+macos_intel64_clang_cc*_os*_debug
+macos_arm64_clang_cc*_os*_release
+macos_arm64_clang_cc*_os*_debug
+
+macos_intel64_clang_cc*_ios*_release
+macos_intel64_clang_cc*_ios*_debug
+macos_arm64_clang_cc*_ios*_release
+macos_arm64_clang_cc*_ios*_debug

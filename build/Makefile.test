@@ -95,10 +95,6 @@ $(TWICE_LINKED_TESTS): LINK_FILES+=$(@:.$(TEST_EXT)=_secondary.$(OBJ))
 %_compiler_builtins.$(TEST_EXT): LINK_TBB.LIB =
 %_compiler_builtins.$(OBJ): CPLUS_FLAGS+=$(DEFINE_KEY)__TBB_TEST_BUILTINS=1 $(DEFINE_KEY)TBB_USE_ASSERT=0
 
-# dynamic_link tests don't depend on the TBB library
-test_dynamic_link%.$(TEST_EXT): LINK_TBB.LIB =
-test_dynamic_link.$(TEST_EXT): LIBS += $(LIBDL)
-
 # Resolving issue with the number of sections that an object file can contain
 ifneq (,$(BIGOBJ_KEY))
 TEST_BIGOBJ = test_opencl_node.$(TEST_EXT)      \
@@ -208,7 +204,6 @@ TEST_TBB_PLAIN.EXE = test_assembly.$(TEST_EXT)   \
 	test_aggregator.$(TEST_EXT)                  \
 	test_concurrent_lru_cache.$(TEST_EXT)        \
 	test_examples_common_utility.$(TEST_EXT)     \
-	test_dynamic_link.$(TEST_EXT)                \
 	test_parallel_for_vectorization.$(TEST_EXT)  \
 	test_tagged_msg.$(TEST_EXT)                  \
 	test_partitioner_whitebox.$(TEST_EXT)        \

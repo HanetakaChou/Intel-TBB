@@ -27,8 +27,8 @@ endif
 include ../../common/examples-common.inc
 
 # TBB libs
-TBBLIB=-ltbb
-TBBLIB_DEBUG=-ltbb_debug
+TBBLIB=$(TBB_LINK_FLAG)
+TBBLIB_DEBUG=$(TBB_LINK_FLAG)
 
 # OpenCL lib
 OPENCL_LIB=-lOpenCL

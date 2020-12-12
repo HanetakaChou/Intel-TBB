@@ -23,14 +23,14 @@ ifneq (,$(shell which icc 2>/dev/null))
 CXX=icc
 endif # icc
 
-TBBLIB = -ltbb
-TBBLIB_DEBUG = -ltbb_debug
+TBBLIB = $(TBB_LINK_FLAG)
+TBBLIB_DEBUG = $(TBB_LINK_FLAG)
 
 ifeq ($(offload), mic)
 override CXXFLAGS += -D__TBB_MIC_OFFLOAD=1 -offload-attribute-target=mic
-# Replace -ltbb with -tbb in the offload mode
-TBBLIB = -ltbb
-TBBLIB_DEBUG += -offload-option,mic,ld,"-ltbb_debug"
+# Replace $(TBB_LINK_FLAG) with -tbb in the offload mode
+TBBLIB = $(TBB_LINK_FLAG)
+TBBLIB_DEBUG += -offload-option,mic,ld,"$(TBB_LINK_FLAG)"
 # Currently only console mode is supported in offload version
 override UI=con
 else

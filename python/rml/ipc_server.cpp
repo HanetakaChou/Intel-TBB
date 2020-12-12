@@ -33,27 +33,15 @@ static const char* IPC_ENABLE_VAR_NAME = "IPC_ENABLE";
 
 typedef versioned_object::version_type version_type;
 
-extern "C" factory::status_type __RML_open_factory(factory& f, version_type& /*server_version*/, version_type /*client_version*/) {
+extern "C" __TBB_DLL_EXPORT factory::status_type __RML_open_factory(factory& f, version_type& /*server_version*/, version_type /*client_version*/) {
     if( !tbb::internal::rml::get_enable_flag( IPC_ENABLE_VAR_NAME ) ) {
         return factory::st_incompatible;
     }
 
-    // Hack to keep this library from being closed
-    static tbb::atomic<bool> one_time_flag;
-    if( one_time_flag.compare_and_swap(true,false)==false ) {
-        __TBB_ASSERT( (size_t)f.library_handle!=factory::c_dont_unload, NULL );
-#if _WIN32||_WIN64
-        f.library_handle = reinterpret_cast<HMODULE>(factory::c_dont_unload);
-#else
-        f.library_handle = reinterpret_cast<void*>(factory::c_dont_unload);
-#endif
-    }
-    // End of hack
-
     return factory::st_success;
 }
 
-extern "C" void __RML_close_factory(factory& /*f*/) {
+extern "C" __TBB_DLL_EXPORT void __RML_close_factory(factory& /*f*/) {
 }
 
 class ipc_thread_monitor : public thread_monitor {
@@ -1092,7 +1080,7 @@ void rml_atfork_child() {
 
 #endif /* USE_PTHREAD */
 
-extern "C" tbb_factory::status_type __TBB_make_rml_server(tbb_factory& /*f*/, tbb_server*& server, tbb_client& client) {
+extern "C" __TBB_DLL_EXPORT tbb_factory::status_type __TBB_make_rml_server(tbb_factory& /*f*/, tbb_server*& server, tbb_client& client) {
     server = new( tbb::cache_aligned_allocator<ipc_server>().allocate(1) ) ipc_server(client);
 #if USE_PTHREAD
     my_global_client = &client;
@@ -1106,7 +1094,7 @@ extern "C" tbb_factory::status_type __TBB_make_rml_server(tbb_factory& /*f*/, tb
     return tbb_factory::st_success;
 }
 
-extern "C" void __TBB_call_with_my_server_info(::rml::server_info_callback_t /*cb*/, void* /*arg*/) {
+extern "C" __TBB_DLL_EXPORT void __TBB_call_with_my_server_info(::rml::server_info_callback_t /*cb*/, void* /*arg*/) {
 }
 
 } // namespace rml

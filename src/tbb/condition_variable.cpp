@@ -18,7 +18,6 @@
 #include "tbb/compat/condition_variable"
 #include "tbb/atomic.h"
 #include "tbb_misc.h"
-#include "dynamic_link.h"
 #include "itt_notify.h"
 
 namespace tbb {

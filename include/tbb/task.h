@@ -88,7 +88,7 @@ namespace interface5 {
                 implicitly deleted after its execute() method runs.  However,
                 sometimes a task needs to be explicitly deallocated, such as
                 when a root task is used as the parent in spawn_and_wait_for_all. */
-            static void __TBB_EXPORTED_FUNC destroy( task& victim );
+            static __TBB_DLL_EXPORT void __TBB_EXPORTED_FUNC destroy( task& victim );
         };
     } // internal
 } // interface5
@@ -152,14 +152,14 @@ namespace internal {
 
     class allocate_root_proxy: no_assign {
     public:
-        static task& __TBB_EXPORTED_FUNC allocate( size_t size );
-        static void __TBB_EXPORTED_FUNC free( task& );
+        __TBB_DLL_EXPORT static task& __TBB_EXPORTED_FUNC allocate( size_t size );
+        __TBB_DLL_EXPORT static void __TBB_EXPORTED_FUNC free( task& );
     };
 
     class allocate_continuation_proxy: no_assign {
     public:
-        task& __TBB_EXPORTED_METHOD allocate( size_t size ) const;
-        void __TBB_EXPORTED_METHOD free( task& ) const;
+        __TBB_DLL_EXPORT task& __TBB_EXPORTED_METHOD allocate( size_t size ) const;
+        __TBB_DLL_EXPORT void __TBB_EXPORTED_METHOD free( task& ) const;
     };
 
     class allocate_child_proxy: no_assign {
@@ -601,7 +601,7 @@ private:
 
 //! Base class for user-defined tasks.
 /** @ingroup task_scheduling */
-class task: __TBB_TASK_BASE_ACCESS interface5::internal::task_base {
+class __TBB_DLL_EXPORT task: __TBB_TASK_BASE_ACCESS interface5::internal::task_base {
 
     //! Set reference count
     void __TBB_EXPORTED_METHOD internal_set_ref_count( int count );
@@ -939,7 +939,7 @@ public:
         affinity but will be executed on another thread.
 
         The default action does nothing. */
-    virtual void __TBB_EXPORTED_METHOD note_affinity( affinity_id id );
+    virtual __TBB_DLL_EXPORT void __TBB_EXPORTED_METHOD note_affinity( affinity_id id );
 
 #if __TBB_TASK_GROUP_CONTEXT
     //! Moves this task from its current group into another one.

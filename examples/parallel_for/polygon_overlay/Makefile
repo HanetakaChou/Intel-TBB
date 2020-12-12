@@ -54,19 +54,19 @@ endif # macOS*
 release: $(SRCFILES) resources
 ifeq ($(compiler),xl)
 	# Avoiding "1586-346 (U) An error occurred during code generation.  The code generation return code was 40." with -O3.
-	$(CXX) -O2 -DNDEBUG $(CXXFLAGS) -o $(EXE) $(SRCFILES) -ltbb -ltbbmalloc $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O2 -DNDEBUG $(CXXFLAGS) -o $(EXE) $(SRCFILES) $(TBB_LINK_FLAG) $(TBBMALLOC_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 else
 ifeq ($(UI),mac)
 	$(CXX_UI) -O3 -DNDEBUG $(CXXFLAGS) -c $(MACUISOURCES) $(CXX0XFLAGS)
 endif # macOS
-	$(CXX) -O3 -DNDEBUG $(CXXFLAGS) -o $(EXE) $(SRCFILES) $(MACUIOBJS) -ltbb -ltbbmalloc $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O3 -DNDEBUG $(CXXFLAGS) -o $(EXE) $(SRCFILES) $(MACUIOBJS) $(TBB_LINK_FLAG) $(TBBMALLOC_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 endif
 
 debug:  $(SRCFILES) resources
 ifeq ($(UI),mac)
 	$(CXX_UI) -g -O0 -DTBB_USE_DEBUG -D_DEBUG $(CXXFLAGS) -c $(MACUISOURCES) $(CXX0XFLAGS)
 endif # macOS
-	$(CXX) -g -O0 -DTBB_USE_DEBUG -D_DEBUG $(CXXFLAGS) -o $(EXE) $(SRCFILES) $(MACUIOBJS) -ltbb_debug -ltbbmalloc_debug $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -g -O0 -DTBB_USE_DEBUG -D_DEBUG $(CXXFLAGS) -o $(EXE) $(SRCFILES) $(MACUIOBJS) $(TBB_LINK_FLAG) $(TBBMALLOC_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 clean:
 	$(RM) $(EXE) *.o *.d

@@ -76,27 +76,39 @@ endif
 
 ####### Build settings ########################################################
 
-OBJ=o
-DLL=dylib
-MALLOC_DLL?=$(DLL)
-LIBEXT=dylib
+ifeq (ios,$(target))
+  OBJ=o
+  DLL=a
+  MALLOC_DLL?=$(DLL)
+  LIBEXT=a
+else
+  OBJ=o
+  DLL=dylib
+  MALLOC_DLL?=$(DLL)
+  LIBEXT=dylib
+endif
 
 def_prefix = $(if $(findstring 64,$(arch)),mac64,mac32)
 
 TBB.LST = $(tbb_root)/src/tbb/$(def_prefix)-tbb-export.lst
 TBB.DEF = $(TBB.LST:.lst=.def)
-TBB.DLL = libtbb$(CPF_SUFFIX)$(DEBUG_SUFFIX).$(DLL)
+TBB.DLL = libpt_tbb$(CPF_SUFFIX).$(DLL)
 TBB.LIB = $(TBB.DLL)
 LINK_TBB.LIB = $(TBB.LIB)
 
 MALLOC.DEF = $(MALLOC_ROOT)/$(def_prefix)-tbbmalloc-export.def
-MALLOC.DLL = libtbbmalloc$(DEBUG_SUFFIX).$(MALLOC_DLL)
+MALLOC.DLL = libpt_tbbmalloc.$(MALLOC_DLL)
 MALLOC.LIB = $(MALLOC.DLL)
 LINK_MALLOC.LIB = $(MALLOC.LIB)
 
-MALLOCPROXY.DLL = libtbbmalloc_proxy$(DEBUG_SUFFIX).$(MALLOC_DLL)
+MALLOCPROXY.DLL = libpt_tbbmalloc_proxy.$(MALLOC_DLL)
 MALLOCPROXY.LIB = $(MALLOCPROXY.DLL)
 LINK_MALLOCPROXY.LIB = $(MALLOCPROXY.LIB)
+
+RML.DEF = $(RML_SERVER_ROOT)/$(def_prefix)-rml-export.def
+RML.DLL = libpt_irml.$(DLL)
+RML.LIB = $(RML.DLL)
+LINK_RML.LIB = $(RML.LIB)
 
 TEST_LAUNCHER=sh $(tbb_root)/build/test_launcher.sh $(largs)
 

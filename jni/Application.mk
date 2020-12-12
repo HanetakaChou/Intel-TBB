@@ -55,7 +55,7 @@ else
     APP_ABI:=$(arch)
 endif
 
-api_version?=21
+api_version?=24
 export API_LEVEL:=$(api_version)
 APP_PLATFORM:=android-$(api_version)
 

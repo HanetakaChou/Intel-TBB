@@ -517,11 +517,6 @@ There are four cases that are supported:
      && __TBB_INITIALIZER_LISTS_PRESENT )
 #endif
 
-/** __TBB_WEAK_SYMBOLS_PRESENT denotes that the system supports the weak symbol mechanism **/
-#ifndef __TBB_WEAK_SYMBOLS_PRESENT
-#define __TBB_WEAK_SYMBOLS_PRESENT ( !_WIN32 && !__APPLE__ && !__sun && (__TBB_GCC_VERSION >= 40000 || __INTEL_COMPILER ) )
-#endif
-
 /** __TBB_DYNAMIC_LOAD_ENABLED describes the system possibility to load shared libraries at run time **/
 #ifndef __TBB_DYNAMIC_LOAD_ENABLED
     #define __TBB_DYNAMIC_LOAD_ENABLED 1
@@ -870,6 +865,18 @@ There are four cases that are supported:
 
 #ifndef __TBB_PREVIEW_FLOW_GRAPH_NODE_SET
 #define __TBB_PREVIEW_FLOW_GRAPH_NODE_SET       (TBB_PREVIEW_FLOW_GRAPH_FEATURES && __TBB_CPP11_PRESENT && __TBB_FLOW_GRAPH_CPP11_FEATURES)
+#endif
+
+#if defined(_MSC_VER)
+
+#define __TBB_DLL_EXPORT __declspec(dllexport)
+
+#elif defined(__GNUC__) 
+
+#define __TBB_DLL_EXPORT __attribute__((visibility("default")))
+
+#else
+#error Unknown Compiler
 #endif
 
 #endif /* __TBB_tbb_config_H */

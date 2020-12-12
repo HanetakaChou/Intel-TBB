@@ -52,13 +52,13 @@ release: $(SOURCES) resources
 ifeq ($(UI),mac)
 	$(CXX_UI) -O2 -DNDEBUG $(CXXFLAGS) -c $(MACUISOURCES) $(CXX0XFLAGS)
 endif # macOS
-	$(CXX) -O2 -DNDEBUG $(CXXFLAGS) -o $(EXE) $(SOURCES) $(MACUIOBJS) -ltbb $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O2 -DNDEBUG $(CXXFLAGS) -o $(EXE) $(SOURCES) $(MACUIOBJS) $(TBB_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 debug: resources
 ifeq ($(UI),mac)
 	$(CXX_UI) -g -O0 -DTBB_USE_DEBUG $(CXXFLAGS) -c $(MACUISOURCES) $(CXX0XFLAGS)
 endif # macOS
-	$(CXX) -g -O0 -DTBB_USE_DEBUG $(CXXFLAGS) -o $(EXE) $(SOURCES) $(MACUIOBJS) -ltbb_debug $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -g -O0 -DTBB_USE_DEBUG $(CXXFLAGS) -o $(EXE) $(SOURCES) $(MACUIOBJS) $(TBB_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 clean:
 	$(RM) $(EXE) *.o *.d

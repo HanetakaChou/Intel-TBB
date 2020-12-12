@@ -25,10 +25,6 @@
 #define TBB_INTERFACE_VERSION 11009
 #define TBB_INTERFACE_VERSION_MAJOR TBB_INTERFACE_VERSION/1000
 
-// The oldest major interface version still supported
-// To be used in SONAME, manifests, etc.
-#define TBB_COMPATIBLE_INTERFACE_VERSION 2
-
 #define __TBB_STRING_AUX(x) #x
 #define __TBB_STRING(x) __TBB_STRING_AUX(x)
 

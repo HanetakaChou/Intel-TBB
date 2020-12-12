@@ -220,11 +220,11 @@ inline thread_monitor::handle_type thread_monitor::launch( void* (*thread_routin
     return handle;
 }
 
-void thread_monitor::join(handle_type handle) {
+inline void thread_monitor::join(handle_type handle) {
     check(pthread_join(handle, NULL), "pthread_join");
 }
 
-void thread_monitor::detach_thread(handle_type handle) {
+inline void thread_monitor::detach_thread(handle_type handle) {
     check(pthread_detach(handle), "pthread_detach");
 }
 

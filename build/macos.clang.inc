@@ -25,13 +25,22 @@ WARNING_AS_ERROR_KEY = -Werror
 WARNING_KEY = -Wall
 TEST_WARNING_KEY = -Wextra -Wshadow -Wcast-qual -Woverloaded-virtual -Wnon-virtual-dtor
 WARNING_SUPPRESS = -Wno-non-virtual-dtor -Wno-dangling-else
-DYLIB_KEY = -dynamiclib
+ifeq (ios,$(target))
+    DYLIB_KEY = 
+    IOS_LIB_LINK_CMD = libtool -static
+else
+    DYLIB_KEY = -dynamiclib
+endif
 EXPORT_KEY = -Wl,-exported_symbols_list,
 LIBDL = -ldl
 
 LIBS = -lpthread
 LINK_FLAGS =
-LIB_LINK_FLAGS = -dynamiclib -install_name @rpath/$(BUILDING_LIBRARY)
+ifeq (ios,$(target))
+    LIB_LINK_FLAGS = 
+else
+    LIB_LINK_FLAGS = -dynamiclib -install_name @rpath/$(BUILDING_LIBRARY)
+endif
 C_FLAGS = $(CPLUS_FLAGS)
 
 ifeq ($(cfg), release)
@@ -52,16 +61,26 @@ ifneq (,$(shell grep xtest `echo "\#include<immintrin.h>" | $(CONLY) -E -M - 2>&
     RTM_KEY = -mrtm
 endif
 
+C_FLAGS += -fvisibility=hidden
+CPLUS_FLAGS += -fvisibility=hidden
+
 ifneq (,$(stdlib))
-    CPLUS_FLAGS    += -stdlib=$(stdlib)
-    LIB_LINK_FLAGS += -stdlib=$(stdlib)
+    CPLUS_FLAGS  += -stdlib=$(stdlib)
+    ifneq (ios,$(target))
+        LIB_LINK_FLAGS += -stdlib=$(stdlib)
+    endif
 endif
 
 ifeq (intel64,$(arch))
     ITT_NOTIFY = -DDO_ITT_NOTIFY
     CPLUS_FLAGS += -m64 $(RTM_KEY)
-    LINK_FLAGS += -m64
-    LIB_LINK_FLAGS += -m64
+    ifeq (ios,$(target))
+        LINK_FLAGS += -arch_only x86_64 
+        LIB_LINK_FLAGS += -arch_only x86_64
+    else
+        LINK_FLAGS += -m64
+        LIB_LINK_FLAGS += -m64
+    endif
 endif
 
 ifeq (ia32,$(arch))
@@ -85,8 +104,13 @@ endif
 
 ifeq ($(arch),$(filter $(arch),armv7 armv7s arm64))
     CPLUS_FLAGS += -arch $(arch)
+ifeq (ios,$(target))
+    LINK_FLAGS += -arch_only arm64
+    LIB_LINK_FLAGS += -arch_only arm64
+else
     LINK_FLAGS += -arch $(arch)
     LIB_LINK_FLAGS += -arch $(arch)
+endif
 endif
 
 ifdef SDKROOT
@@ -96,13 +120,26 @@ ifdef SDKROOT
 endif
 
 ifeq (ios,$(target))
-    CPLUS_FLAGS += -miphoneos-version-min=$(IPHONEOS_DEPLOYMENT_TARGET)
-    LINK_FLAGS += -miphoneos-version-min=$(IPHONEOS_DEPLOYMENT_TARGET)
-    LIB_LINK_FLAGS += -miphoneos-version-min=$(IPHONEOS_DEPLOYMENT_TARGET)
+    ifeq (arm64,$(arch))
+        #CPLUS_FLAGS += -target arm64-apple-ios13.0
+        #CPLUS_FLAGS += -fembed-bitcode-marker
+        #CPLUS_FLAGS += -fembed-bitcode
+        CPLUS_FLAGS +=-target arm64-apple-ios14.5-macabi
+    endif
+    ifeq (intel64,$(arch))
+        CPLUS_FLAGS += -target x86_64-apple-ios14.5-macabi
+    endif
 else
-    CPLUS_FLAGS += -mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)
-    LINK_FLAGS += -mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)
-    LIB_LINK_FLAGS += -mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)
+    ifeq (arm64,$(arch))
+        CPLUS_FLAGS += -target arm64-apple-macos10.15
+        LINK_FLAGS += -target arm64-apple-macos10.15
+        LIB_LINK_FLAGS += -target arm64-apple-macos10.15
+    endif
+    ifeq (intel64,$(arch))
+        CPLUS_FLAGS += -target x86_64-apple-macos10.15
+        LINK_FLAGS += -target x86_64-apple-macos10.15
+        LIB_LINK_FLAGS += -target x86_64-apple-macos10.15
+    endif
 endif
 
 #------------------------------------------------------------------------------

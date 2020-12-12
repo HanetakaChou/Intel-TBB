@@ -36,10 +36,10 @@ include ../../common/examples-common.inc
 all: release test
 
 release:
-	$(CXX) -O2 -DNDEBUG *.cpp $(CXXFLAGS) -o $(PROG) -ltbb $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O2 -DNDEBUG *.cpp $(CXXFLAGS) -o $(PROG) $(TBB_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 debug:
-	$(CXX) -O0 -g -DTBB_USE_DEBUG *.cpp $(CXXFLAGS) -o $(PROG) -ltbb_debug $(LIBS) $(CXX0XFLAGS)
+	$(CXX) -O0 -g -DTBB_USE_DEBUG *.cpp $(CXXFLAGS) -o $(PROG) $(TBB_LINK_FLAG) $(LIBS) $(CXX0XFLAGS)
 
 profile: override CXXFLAGS += -DTBB_USE_THREADING_TOOLS -g
 profile: release

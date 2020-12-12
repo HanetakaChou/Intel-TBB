@@ -3193,20 +3193,7 @@ void init_rml_module () {
 #endif
 }
 
-extern "C" factory::status_type __RML_open_factory( factory& f, version_type& server_version, version_type client_version ) {
-    // Hack to keep this library from being closed by causing the first client's dlopen to not have a corresponding dlclose.
-    // This code will be removed once we figure out how to do shutdown of the RML perfectly.
-    static tbb::atomic<bool> one_time_flag;
-    if( one_time_flag.compare_and_swap(true,false)==false) {
-        __TBB_ASSERT( (size_t)f.library_handle!=factory::c_dont_unload, NULL );
-#if _WIN32||_WIN64
-        f.library_handle = reinterpret_cast<HMODULE>(factory::c_dont_unload);
-#else
-        f.library_handle = reinterpret_cast<void*>(factory::c_dont_unload);
-#endif
-    }
-    // End of hack
-
+extern "C" __TBB_DLL_EXPORT factory::status_type __RML_open_factory( factory& f, version_type& server_version, version_type client_version ) {
     // Initialize the_balance only once
     tbb::internal::atomic_do_once ( &init_rml_module, rml_module_state );
 
@@ -3231,7 +3218,7 @@ extern "C" factory::status_type __RML_open_factory( factory& f, version_type& se
     }
 }
 
-extern "C" void __RML_close_factory( factory& f ) {
+extern "C" __TBB_DLL_EXPORT void __RML_close_factory( factory& f ) {
     if( wait_counter* fc = static_cast<wait_counter*>(f.scratch_ptr) ) {
         f.scratch_ptr = 0;
         fc->wait();
@@ -3249,11 +3236,11 @@ namespace tbb {
 namespace internal {
 namespace rml {
 
-extern "C" tbb_factory::status_type __TBB_make_rml_server( tbb_factory& f, tbb_server*& server, tbb_client& client ) {
+extern "C" __TBB_DLL_EXPORT tbb_factory::status_type __TBB_make_rml_server( tbb_factory& f, tbb_server*& server, tbb_client& client ) {
     return ::rml::internal::connect< ::rml::internal::tbb_connection_v2>(f,server,client);
 }
 
-extern "C" void __TBB_call_with_my_server_info( ::rml::server_info_callback_t cb, void* arg ) {
+extern "C" __TBB_DLL_EXPORT void __TBB_call_with_my_server_info( ::rml::server_info_callback_t cb, void* arg ) {
     return ::rml::internal::call_with_build_date_str( cb, arg );
 }
 

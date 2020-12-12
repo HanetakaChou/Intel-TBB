@@ -52,6 +52,13 @@ ifeq ($(cfg), debug)
 endif
 
 CPLUS_FLAGS += $(DEFINE_KEY)USE_PTHREAD $(DEFINE_KEY)_GLIBCXX_HAVE_FENV_H
+LIB_LINK_FLAGS += -Wl,--no-undefined
+
+C_FLAGS += -fvisibility=hidden
+CPLUS_FLAGS += -fvisibility=hidden
+
+RPATH_ORIGIN_FLAG = '-Wl,-rpath,$$ORIGIN'
+LIB_LINK_FLAGS += $(RPATH_ORIGIN_FLAG) -Wl,--enable-new-dtags
 
 ifneq (,$(findstring $(arch),ia32 intel64))
     CPLUS_FLAGS += $(DEFINE_KEY)DO_ITT_NOTIFY

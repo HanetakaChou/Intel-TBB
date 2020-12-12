@@ -58,8 +58,8 @@ ifeq (linux,$(tbb_os))
 RML_ASM.OBJ = $(if $(findstring ia64,$(arch)),$(TBB_ASM.OBJ))
 endif
 
-RML_TBB_DEP= cache_aligned_allocator_rml.$(OBJ) dynamic_link_rml.$(OBJ) tbb_misc_rml.$(OBJ) tbb_misc_ex_rml.$(OBJ)
-TBB_DEP_NON_RML_TEST?= cache_aligned_allocator_rml.$(OBJ) dynamic_link_rml.$(OBJ) $(RML_ASM.OBJ) tbb_misc_rml.$(OBJ) tbb_misc_ex_rml.$(OBJ)
+RML_TBB_DEP= cache_aligned_allocator_rml.$(OBJ) tbb_misc_rml.$(OBJ) tbb_misc_ex_rml.$(OBJ)
+TBB_DEP_NON_RML_TEST?= cache_aligned_allocator_rml.$(OBJ) $(RML_ASM.OBJ) tbb_misc_rml.$(OBJ) tbb_misc_ex_rml.$(OBJ)
 ifeq ($(cfg),debug)
 RML_TBB_DEP+= spin_mutex_rml.$(OBJ)
 TBB_DEP_RML_TEST?= $(RML_ASM.OBJ) tbb_misc_rml.$(OBJ)
@@ -67,7 +67,7 @@ else
 TBB_DEP_RML_TEST?= $(RML_ASM.OBJ)
 endif
 LIBS += $(LIBDL)
-TBB_DEP_RML_TEST =  rml_tbb.$(OBJ) dynamic_link_rml.$(OBJ)
+TBB_DEP_RML_TEST =  rml_tbb.$(OBJ)
 
 INCLUDES += $(INCLUDE_KEY)$(RML_ROOT)/include $(INCLUDE_KEY).
 T_INCLUDES = $(INCLUDES) $(INCLUDE_KEY)$(tbb_root)/src/test $(INCLUDE_KEY)$(RML_SERVER_ROOT)
@@ -101,11 +101,6 @@ $(RML.DLL): CPLUS_FLAGS += $(SDL_FLAGS)
 $(RML.DLL): BUILDING_LIBRARY = $(RML.DLL)
 $(RML.DLL): $(RML_TBB_DEP) $(RML.OBJ) $(RML.RES) $(RML_NO_VERSION.DLL) $(RML_ASM.OBJ)
 	$(LIB_LINK_CMD) $(LIB_OUTPUT_KEY)$(RML.DLL) $(RML.OBJ) $(RML_TBB_DEP) $(RML_ASM.OBJ) $(RML.RES) $(LIB_LINK_LIBS) $(LIB_LINK_FLAGS)
-
-ifneq (,$(RML_NO_VERSION.DLL))
-$(RML_NO_VERSION.DLL):
-	echo "INPUT ($(RML.DLL))" > $(RML_NO_VERSION.DLL)
-endif
 
 rml: rml_dll
 rml_dll: $(RML.DLL)

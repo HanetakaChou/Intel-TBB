@@ -23,15 +23,15 @@ ifneq (,$(shell which icc 2>/dev/null))
     CXX=icpc
 endif
 
-TBBLIB = -ltbb
-TBBLIB_DEBUG = -ltbb_debug
+TBBLIB = $(TBB_LINK_FLAG)
+TBBLIB_DEBUG = $(TBB_LINK_FLAG)
 
 ifneq (,$(filter icc icpc,$(CXX)))
 ifeq ($(offload), mic)
 override CXXFLAGS += -D__TBB_MIC_OFFLOAD=1
-# Replace -ltbb with -tbb in the offload mode
+# Replace $(TBB_LINK_FLAG) with -tbb in the offload mode
 TBBLIB = -tbb
-TBBLIB_DEBUG += -offload-option,mic,ld,"-ltbb_debug"
+TBBLIB_DEBUG += -offload-option,mic,ld,"$(TBB_LINK_FLAG)"
 endif
 endif
 

@@ -113,8 +113,6 @@ void testSemaphore( int semInitCnt, int extraThreads ) {
 
 #include "../tbb/semaphore.cpp"
 #if _WIN32||_WIN64
-#include "../tbb/dynamic_link.cpp"
-
 void testOSVersion() {
 #if __TBB_USE_SRWLOCK
      BOOL bIsWindowsVistaOrLater;

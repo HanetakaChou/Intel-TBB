@@ -136,14 +136,14 @@ protected:
         , my_version_and_traits(default_flags)
         {}
 
-    void __TBB_EXPORTED_METHOD internal_initialize();
-    void __TBB_EXPORTED_METHOD internal_terminate();
-    void __TBB_EXPORTED_METHOD internal_attach();
-    void __TBB_EXPORTED_METHOD internal_enqueue( task&, intptr_t ) const;
+    __TBB_DLL_EXPORT void __TBB_EXPORTED_METHOD internal_initialize();
+    __TBB_DLL_EXPORT void __TBB_EXPORTED_METHOD internal_terminate();
+    __TBB_DLL_EXPORT void __TBB_EXPORTED_METHOD internal_attach();
+    __TBB_DLL_EXPORT void __TBB_EXPORTED_METHOD internal_enqueue( task&, intptr_t ) const;
     void __TBB_EXPORTED_METHOD internal_execute( delegate_base& ) const;
     void __TBB_EXPORTED_METHOD internal_wait() const;
-    static int __TBB_EXPORTED_FUNC internal_current_slot();
-    static int __TBB_EXPORTED_FUNC internal_max_concurrency( const task_arena * );
+    static __TBB_DLL_EXPORT int __TBB_EXPORTED_FUNC internal_current_slot();
+    static __TBB_DLL_EXPORT int __TBB_EXPORTED_FUNC internal_max_concurrency( const task_arena * );
 public:
     //! Typedef for number of threads that is automatic.
     static const int automatic = -1;

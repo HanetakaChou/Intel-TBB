@@ -23,9 +23,6 @@
 #include "tbb/parallel_for.h"
 #include "tbb/blocked_range.h"
 #include "harness.h"
-#if _WIN32||_WIN64
-#include "tbb/dynamic_link.cpp"
-#endif
 
 #include "tbb/semaphore.cpp"
 #include "tbb/concurrent_monitor.cpp"

@@ -162,16 +162,9 @@ public:
 
 protected:
     //! Pointer to routine that waits for server to indicate when client can close itself.
-    status_type (*my_wait_to_close_routine)( factory& );
+    void (*my_wait_to_close_routine)( factory& );
 
 public:
-    //! Library handle for use by RML.
-#if _WIN32||_WIN64
-    HMODULE library_handle;
-#else
-    void* library_handle;
-#endif /* _WIN32||_WIN64 */ 
-
     //! Special marker to keep dll from being unloaded prematurely
     static const std::size_t c_dont_unload = 1;
 };

@@ -24,8 +24,6 @@
 
 #include "tbb/task_scheduler_init.h"
 
-#include "dynamic_link.h"
-
 namespace tbb {
 namespace internal {
 
@@ -47,16 +45,23 @@ static __cilk_tbb_retcode (*watch_stack_handler)(struct __cilk_tbb_unwatch_thunk
                                                  struct __cilk_tbb_stack_op_thunk o);
 
 //! Table describing how to link the handlers.
-static const dynamic_link_descriptor CilkLinkTable[] = {
-    DLD_NOWEAK(__cilkrts_watch_stack, watch_stack_handler)
-};
+extern "C" {
+    __cilk_tbb_retcode __cilkrts_watch_stack(struct __cilk_tbb_unwatch_thunk* u,
+                                             struct __cilk_tbb_stack_op_thunk o);
+}
 
 static atomic<do_once_state> cilkrts_load_state;
 
 bool initialize_cilk_interop() {
     // Pinning can fail. This is a normal situation, and means that the current
     // thread does not use cilkrts and consequently does not need interop.
-    return dynamic_link( CILKLIB_NAME, CilkLinkTable, 1,  /*handle=*/0, DYNAMIC_LINK_GLOBAL );
+#if 0
+    watch_stack_handler = __cilkrts_watch_stack;
+    return true;
+#else 
+    watch_stack_handler =NULL;
+    return false;
+#endif
 }
 #endif /* __TBB_SURVIVE_THREAD_SWITCH */
 
@@ -86,7 +91,6 @@ void governor::release_resources () {
     int status = theTLS.destroy();
     if( status )
         runtime_warning("failed to destroy task scheduler TLS: %s", strerror(status));
-    dynamic_unlink_all();
 }
 
 rml::tbb_server* governor::create_rml_server ( rml::tbb_client& client ) {

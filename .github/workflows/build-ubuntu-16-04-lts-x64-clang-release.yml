@@ -1,0 +1,18 @@
+name: Ubuntu 16.04 LTS x64 Clang Release
+
+on:
+  push:
+    branches: [tbb_2019_custom]
+  pull_request:
+    branches: [tbb_2019_custom]
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: install ubuntu dependencies x64
+        run: sudo ./.vscode/install_ubuntu_dependencies_x64.sh
+      - name: build ubuntu x64 clang release
+        run: ./.vscode/build_x64_clang_release.sh
