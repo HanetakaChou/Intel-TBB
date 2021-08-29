@@ -121,10 +121,10 @@ endif
 
 ifeq (ios,$(target))
     ifeq (arm64,$(arch))
-        #CPLUS_FLAGS += -target arm64-apple-ios13.0
-        #CPLUS_FLAGS += -fembed-bitcode-marker
-        #CPLUS_FLAGS += -fembed-bitcode
-        CPLUS_FLAGS +=-target arm64-apple-ios14.5-macabi
+        CPLUS_FLAGS += -target arm64-apple-ios13.0
+        CPLUS_FLAGS += -fembed-bitcode-marker
+        CPLUS_FLAGS += -fembed-bitcode
+        #CPLUS_FLAGS +=-target arm64-apple-ios14.5-macabi
     endif
     ifeq (intel64,$(arch))
         CPLUS_FLAGS += -target x86_64-apple-ios14.5-macabi
