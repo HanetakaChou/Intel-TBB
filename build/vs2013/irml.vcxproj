@@ -38,51 +38,52 @@
     <ProjectGuid>{02F61511-D5B6-46E6-B4BB-DEAA96E6BCC7}</ProjectGuid>
     <RootNamespace>tbbmalloc_proxy</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -163,17 +164,30 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_debug</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">$(ProjectName)_debug</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)_debug</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">$(ProjectName)_debug</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pt_irml</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">pt_irml</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pt_irml</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">pt_irml</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>pt_irml</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">
+    <TargetName>pt_irml</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>pt_irml</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">
+    <TargetName>pt_irml</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions> /c /MDd /Od /Ob0 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /DTBB_SUPPRESS_DEPRECATED_MESSAGES=1 /DTBB_USE_DEBUG /D__TBB_LIB_NAME=tbb_debug.lib /DDO_ITT_NOTIFY /GS /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0502 /W4 /D__TBBMALLOC_BUILD=1 /I../../src /I../../src/rml/include /I../../include /I../../src/tbbmalloc /I../../src/tbbmalloc</AdditionalOptions>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../src;../../src/rml/include;../../include;../../src/tbbmalloc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TBB_SUPPRESS_DEPRECATED_MESSAGES=1;__TBB_NO_IMPLICIT_LINKAGE=1;DO_ITT_NOTIFY;USE_WINTHREAD;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0601;_WINDLL;TBB_USE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -182,16 +196,20 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO  %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)tbbmalloc_proxy_debug.dll</OutputFile>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ModuleDefinitionFile>$(IntDir)irml.def</ModuleDefinitionFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -199,12 +217,12 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalOptions> /c /MDd /Od /Ob0 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /DTBB_SUPPRESS_DEPRECATED_MESSAGES=1 /DTBB_USE_DEBUG /D__TBB_LIB_NAME=tbb_debug.lib /DDO_ITT_NOTIFY /GS /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0502 /W4 /D__TBBMALLOC_BUILD=1 /I../../src /I../../src/rml/include /I../../include /I../../src/tbbmalloc /I../../src/tbbmalloc</AdditionalOptions>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../src/rml/include;../../include;../../src/tbbmalloc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
-      <ExceptionHandling>
-      </ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -213,42 +231,55 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ShowIncludes>false</ShowIncludes>
+      <PreprocessorDefinitions>TBB_SUPPRESS_DEPRECATED_MESSAGES=1;__TBB_NO_IMPLICIT_LINKAGE=1;DO_ITT_NOTIFY;USE_WINTHREAD;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0601;_WINDLL;TBB_USE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)tbbmalloc_proxy_debug.dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX64</TargetMachine>
+      <ModuleDefinitionFile>$(IntDir)irml.def</ModuleDefinitionFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalOptions> /c /MD /O2 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /DTBB_SUPPRESS_DEPRECATED_MESSAGES=1 /D__TBB_LIB_NAME=tbb.lib /DDO_ITT_NOTIFY /GS /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0502 /W4 /D__TBBMALLOC_BUILD=1 /I../../src /I../../src/rml/include /I../../include /I../../src/tbbmalloc /I../../src/tbbmalloc</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ExceptionHandling>
-      </ExceptionHandling>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <AdditionalIncludeDirectories>../../src;../../src/rml/include;../../include;../../src/tbbmalloc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TBB_SUPPRESS_DEPRECATED_MESSAGES=1;__TBB_NO_IMPLICIT_LINKAGE=1;DO_ITT_NOTIFY;USE_WINTHREAD;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0601;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO   %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)tbbmalloc_proxy.dll</OutputFile>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ModuleDefinitionFile>$(IntDir)irml.def</ModuleDefinitionFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -256,36 +287,47 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalOptions> /c /MD /O2 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /DTBB_SUPPRESS_DEPRECATED_MESSAGES=1 /D__TBB_LIB_NAME=tbb.lib /DDO_ITT_NOTIFY /GS /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0502 /W4 /D__TBBMALLOC_BUILD=1 /I../../src /I../../src/rml/include /I../../include /I../../src/tbbmalloc /I../../src/tbbmalloc</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ExceptionHandling>
-      </ExceptionHandling>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <AdditionalIncludeDirectories>../../src;../../src/rml/include;../../include;../../src/tbbmalloc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TBB_SUPPRESS_DEPRECATED_MESSAGES=1;__TBB_NO_IMPLICIT_LINKAGE=1;DO_ITT_NOTIFY;USE_WINTHREAD;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0601;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)tbbmalloc_proxy.dll</OutputFile>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX64</TargetMachine>
+      <ModuleDefinitionFile>$(IntDir)irml.def</ModuleDefinitionFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">
     <ClCompile>
-      <AdditionalOptions> /c /MTd /Od /Ob0 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /DTBB_SUPPRESS_DEPRECATED_MESSAGES=1 /DTBB_USE_DEBUG /D__TBB_LIB_NAME=tbb_debug.lib /DDO_ITT_NOTIFY /GS /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0502 /W4 /D__TBBMALLOC_BUILD=1 /I../../src /I../../src/rml/include /I../../include /I../../src/tbbmalloc /I../../src/tbbmalloc</AdditionalOptions>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../src;../../src/rml/include;../../include;../../src/tbbmalloc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TBB_SUPPRESS_DEPRECATED_MESSAGES=1;__TBB_NO_IMPLICIT_LINKAGE=1;DO_ITT_NOTIFY;USE_WINTHREAD;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0601;_WINDLL;TBB_USE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -294,16 +336,20 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO  %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)tbbmalloc_proxy_debug.dll</OutputFile>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ModuleDefinitionFile>$(IntDir)irml.def</ModuleDefinitionFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">
@@ -311,12 +357,12 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalOptions> /c /MTd /Od /Ob0 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /DTBB_SUPPRESS_DEPRECATED_MESSAGES=1 /DTBB_USE_DEBUG /D__TBB_LIB_NAME=tbb_debug.lib /DDO_ITT_NOTIFY /GS /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0502 /W4 /D__TBBMALLOC_BUILD=1 /I../../src /I../../src/rml/include /I../../include /I../../src/tbbmalloc /I../../src/tbbmalloc</AdditionalOptions>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../src/rml/include;../../include;../../src/tbbmalloc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
-      <ExceptionHandling>
-      </ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -325,42 +371,54 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ShowIncludes>false</ShowIncludes>
+      <PreprocessorDefinitions>TBB_SUPPRESS_DEPRECATED_MESSAGES=1;__TBB_NO_IMPLICIT_LINKAGE=1;DO_ITT_NOTIFY;USE_WINTHREAD;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0601;_WINDLL;TBB_USE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)tbbmalloc_proxy_debug.dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX64</TargetMachine>
+      <ModuleDefinitionFile>$(IntDir)irml.def</ModuleDefinitionFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">
     <ClCompile>
-      <AdditionalOptions> /c /MT /O2 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /DTBB_SUPPRESS_DEPRECATED_MESSAGES=1 /D__TBB_LIB_NAME=tbb.lib /DDO_ITT_NOTIFY /GS /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0502 /W4 /D__TBBMALLOC_BUILD=1 /I../../src /I../../src/rml/include /I../../include /I../../src/tbbmalloc /I../../src/tbbmalloc</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ExceptionHandling>
-      </ExceptionHandling>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <AdditionalIncludeDirectories>../../src;../../src/rml/include;../../include;../../src/tbbmalloc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TBB_SUPPRESS_DEPRECATED_MESSAGES=1;__TBB_NO_IMPLICIT_LINKAGE=1;DO_ITT_NOTIFY;USE_WINTHREAD;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0601;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO   %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)tbbmalloc_proxy.dll</OutputFile>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ModuleDefinitionFile>$(IntDir)irml.def</ModuleDefinitionFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">
@@ -368,55 +426,113 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalOptions> /c /MT /O2 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /DTBB_SUPPRESS_DEPRECATED_MESSAGES=1 /D__TBB_LIB_NAME=tbb.lib /DDO_ITT_NOTIFY /GS /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0502 /W4 /D__TBBMALLOC_BUILD=1 /I../../src /I../../src/rml/include /I../../include /I../../src/tbbmalloc /I../../src/tbbmalloc</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ExceptionHandling>
-      </ExceptionHandling>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <AdditionalIncludeDirectories>../../src;../../src/rml/include;../../include;../../src/tbbmalloc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TBB_SUPPRESS_DEPRECATED_MESSAGES=1;__TBB_NO_IMPLICIT_LINKAGE=1;DO_ITT_NOTIFY;USE_WINTHREAD;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0601;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)tbbmalloc_proxy.dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX64</TargetMachine>
+      <ModuleDefinitionFile>$(IntDir)irml.def</ModuleDefinitionFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\tbbmalloc\tbb_function_replacement.h" />
-    <ClInclude Include="..\..\include\tbb\tbbmalloc_proxy.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\src\tbbmalloc\tbbmalloc.rc">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 %(AdditionalOptions)</AdditionalOptions>
+    <ResourceCompile Include="..\..\src\rml\server\irml.rc">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/I../../src /I../../include /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 %(AdditionalOptions)</AdditionalOptions>
     </ResourceCompile>
-    <ClCompile Include="..\..\src\tbbmalloc\proxy.cpp" />
-    <ClCompile Include="..\..\src\tbbmalloc\tbb_function_replacement.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\rml\server\rml_server.cpp" />
+    <ClCompile Include="..\..\src\tbb\cache_aligned_allocator.cpp" />
+    <ClCompile Include="..\..\src\tbb\concurrent_vector.cpp" />
+    <ClCompile Include="..\..\src\tbb\tbb_misc.cpp" />
+    <ClCompile Include="..\..\src\tbb\tbb_misc_ex.cpp" />
+    <ClCompile Include="..\..\src\tbb\tools_api\ittnotify_static.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\src\rml\server\win64-rml-export.def">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl /nologo /TC /EP ../../src/rml/server/win64-rml-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 /D__TBB_BUILD=1 /I../../src /I../../include &gt;"$(IntDir)irml.def"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">cl /nologo /TC /EP ../../src/rml/server/win64-rml-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 /D__TBB_BUILD=1 /I../../src /I../../include &gt;"$(IntDir)irml.def"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">cl /nologo /TC /EP ../../src/rml/server/win64-rml-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 /D__TBB_BUILD=1 /I../../src /I../../include &gt;"$(IntDir)irml.def"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl /nologo /TC /EP ../../src/rml/server/win64-rml-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 /D__TBB_BUILD=1 /I../../src /I../../include &gt;"$(IntDir)irml.def"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">generating irml.def file</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">generating irml.def file</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">generating irml.def file</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">generating irml.def file</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)irml.def</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">$(IntDir)irml.def</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">$(IntDir)irml.def</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)irml.def</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="tbbmalloc.vcxproj">
       <Project>{b15f131e-328a-4d42-adc2-9ff4ca6306d8}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\src\rml\server\win32-rml-export.def">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cl /nologo /TC /EP ../../src/rml/server/win32-rml-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 /D__TBB_BUILD=1 /I../../src /I../../include &gt;"$(IntDir)irml.def"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">cl /nologo /TC /EP ../../src/rml/server/win32-rml-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 /D__TBB_BUILD=1 /I../../src /I../../include &gt;"$(IntDir)irml.def"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">cl /nologo /TC /EP ../../src/rml/server/win32-rml-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 /D__TBB_BUILD=1 /I../../src /I../../include &gt;"$(IntDir)irml.def"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl /nologo /TC /EP ../../src/rml/server/win32-rml-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0601 /D__TBB_BUILD=1 /I../../src /I../../include &gt;"$(IntDir)irml.def"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">generating irml.def file</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">generating irml.def file</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">generating irml.def file</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">generating irml.def file</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)irml.def</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">$(IntDir)irml.def</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">$(IntDir)irml.def</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)irml.def</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="..\..\src\tbb\ia32-masm\atomic_support.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release-MT|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug-MT|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release-MT|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug-MT|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
+    </MASM>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

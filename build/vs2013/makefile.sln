@@ -1,17 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8898CE0B-0BFB-45AE-AA71-83735ED2510D}"
-	ProjectSection(SolutionItems) = preProject
-		index.html = index.html
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tbb", "tbb.vcxproj", "{F62787DD-1327-448B-9818-030062BCFAA5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tbbmalloc", "tbbmalloc.vcxproj", "{B15F131E-328A-4D42-ADC2-9FF4CA6306D8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tbbmalloc_proxy", "tbbmalloc_proxy.vcxproj", "{02F61511-D5B6-46E6-B4BB-DEAA96E6BCC7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "irml", "irml.vcxproj", "{02F61511-D5B6-46E6-B4BB-DEAA96E6BCC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,5 +71,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB4EFF68-1489-4C45-9501-596EBF4F7839}
 	EndGlobalSection
 EndGlobal
