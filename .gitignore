@@ -1,7 +1,8 @@
 # Ignore the debug and release directories created with Makefile builds #
 #########################################################################
-build/*_debug/
-build/*_release/
+/build/*_debug/
+/build/*_release/
+/build/android-ndk-r14b
 
 # Compiled source #
 ###################

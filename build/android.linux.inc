@@ -42,22 +42,27 @@ MAKE_VERSIONS=sh $(tbb_root)/build/version_info_android.sh $(VERSION_FLAGS) >ver
 # No SONAME_SUFFIX for Android allowed in library names
 TBB.LST = $(tbb_root)/src/tbb/$(def_prefix)-tbb-export.lst
 TBB.DEF = $(TBB.LST:.lst=.def)
-TBB.DLL = libtbb$(CPF_SUFFIX)$(DEBUG_SUFFIX).$(DLL)
+TBB.DLL = libpt_tbb$(CPF_SUFFIX).$(DLL)
 TBB.LIB = $(TBB.DLL)
 TBB_NO_VERSION.DLL=
 LINK_TBB.LIB = $(TBB.LIB)
 
 MALLOC.DEF = $(MALLOC_ROOT)/$(def_prefix)-tbbmalloc-export.def
-MALLOC.DLL = libtbbmalloc$(DEBUG_SUFFIX).$(DLL)
+MALLOC.DLL = libpt_tbbmalloc.$(DLL)
 MALLOC.LIB = $(MALLOC.DLL)
 MALLOC_NO_VERSION.DLL=
 LINK_MALLOC.LIB = $(MALLOC.LIB)
 
 MALLOCPROXY.DEF = $(MALLOC_ROOT)/$(def_prefix)-proxy-export.def
-MALLOCPROXY.DLL = libtbbmalloc_proxy$(DEBUG_SUFFIX).$(DLL)
+MALLOCPROXY.DLL = libpt_tbbmalloc_proxy.$(DLL)
 MALLOCPROXY_NO_VERSION.DLL=
 MALLOCPROXY.LIB = $(MALLOCPROXY.DLL)
 LINK_MALLOCPROXY.LIB = $(MALLOCPROXY.LIB)
+
+RML.DEF = $(RML_SERVER_ROOT)/lin-rml-export.def
+RML.DLL = libpt_irml.$(DLL)
+RML.LIB = $(RML.DLL)
+LINK_RML.LIB = $(RML.LIB)
 
 TEST_LAUNCHER=
 run_cmd ?= -sh $(tbb_root)/build/android.linux.launcher.sh $(largs)
