@@ -39,7 +39,6 @@ CPLUS_FLAGS += $(PIC_KEY) $(DSE_KEY) $(DEFINE_KEY)__TBB_BUILD=1
 TBB_CPLUS.OBJ = concurrent_hash_map.$(OBJ) \
 		concurrent_queue.$(OBJ) \
 		concurrent_vector.$(OBJ) \
-		dynamic_link.$(OBJ) \
 		itt_notify.$(OBJ) \
 		cache_aligned_allocator.$(OBJ) \
 		pipeline.$(OBJ) \
@@ -91,20 +90,28 @@ ifneq (,$(TBB.DEF))
 tbb.def: $(TBB.DEF) $(TBB.LST)
 	$(CPLUS) $(PREPROC_ONLY) $< $(CPLUS_FLAGS) $(INCLUDES) > $@
 
+ifneq (ios,$(target))
 LIB_LINK_FLAGS += $(EXPORT_KEY)tbb.def
+endif
+
 $(TBB.DLL): tbb.def
 endif
 
 tbbvars.sh:
 	$(MAKE_TBBVARS)
 
+ifneq (ios,$(target))
+LIB_LINK_FLAGS += -L. -lpt_tbbmalloc -lpt_irml
+endif
+
 $(TBB.DLL): BUILDING_LIBRARY = $(TBB.DLL)
+
+ifeq (ios,$(target))
+$(TBB.DLL): $(TBB.OBJ) $(TBB.RES) tbbvars.sh $(TBB_NO_VERSION.DLL)
+	$(IOS_LIB_LINK_CMD) $(LIB_OUTPUT_KEY)$(TBB.DLL) $(TBB.OBJ) $(TBB.RES) $(LIB_LINK_FLAGS)
+else
 $(TBB.DLL): $(TBB.OBJ) $(TBB.RES) tbbvars.sh $(TBB_NO_VERSION.DLL)
 	$(LIB_LINK_CMD) $(LIB_OUTPUT_KEY)$(TBB.DLL) $(TBB.OBJ) $(TBB.RES) $(LIB_LINK_LIBS) $(LIB_LINK_FLAGS)
-
-ifneq (,$(TBB_NO_VERSION.DLL))
-$(TBB_NO_VERSION.DLL):
-	echo "INPUT ($(TBB.DLL))" > $(TBB_NO_VERSION.DLL)
 endif
 
 #clean:

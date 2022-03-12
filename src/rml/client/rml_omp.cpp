@@ -21,8 +21,8 @@
 namespace __kmp {
 namespace rml {
 
-#define MAKE_SERVER(x) DLD(__KMP_make_rml_server,x)
-#define GET_INFO(x) DLD(__KMP_call_with_my_server_info,x)
+#define MAKE_SERVER(x) (x = __KMP_make_rml_server)
+#define GET_INFO(x) (x = __KMP_call_with_my_server_info)
 #define SERVER omp_server 
 #define CLIENT omp_client
 #define FACTORY omp_factory

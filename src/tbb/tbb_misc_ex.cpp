@@ -55,9 +55,9 @@ namespace internal {
 // Handlers for interoperation with libiomp
 static int (*libiomp_try_restoring_original_mask)();
 // Table for mapping to libiomp entry points
-static const dynamic_link_descriptor iompLinkTable[] = {
-    DLD_NOWEAK( kmp_set_thread_affinity_mask_initial, libiomp_try_restoring_original_mask )
-};
+extern "C" {
+    int kmp_set_thread_affinity_mask_initial();
+}
 #endif
 
 static void set_thread_affinity_mask( size_t maskSize, const basic_mask_t* threadMask ) {
@@ -169,8 +169,9 @@ static void initialize_hardware_concurrency_info () {
 #if __linux__
         // For better coexistence with libiomp which might have changed the mask already,
         // check for its presence and ask it to restore the mask.
-        dynamic_link_handle libhandle;
-        if ( dynamic_link( "libiomp5.so", iompLinkTable, 1, &libhandle, DYNAMIC_LINK_GLOBAL ) ) {
+        libiomp_try_restoring_original_mask = NULL; //kmp_set_thread_affinity_mask_initial;
+        if(NULL != libiomp_try_restoring_original_mask)
+        {
             // We have found the symbol provided by libiomp5 for restoring original thread affinity.
             affinity_helper affhelp;
             affhelp.protect_affinity_mask( /*restore_process_mask=*/false );
@@ -181,7 +182,6 @@ static void initialize_hardware_concurrency_info () {
                 get_thread_affinity_mask( curMaskSize, processMask );
             } else
                 affhelp.dismiss();  // thread mask has not changed
-            dynamic_unlink( libhandle );
             // Destructor of affinity_helper restores the thread mask (unless dismissed).
         }
 #endif

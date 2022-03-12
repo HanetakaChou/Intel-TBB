@@ -90,7 +90,7 @@ OBJ = o
 DLL = so
 MALLOC_DLL?=$(DLL)
 LIBEXT = so
-SONAME_SUFFIX =$(shell grep TBB_COMPATIBLE_INTERFACE_VERSION $(tbb_root)/include/tbb/tbb_stddef.h | egrep -o [0-9.]+)
+# No SONAME_SUFFIX for linux
 
 ifeq ($(arch),ia64)
         def_prefix = lin64ipf
@@ -111,27 +111,24 @@ endif
 TBB.LST = $(tbb_root)/src/tbb/$(def_prefix)-tbb-export.lst
 TBB.DEF = $(TBB.LST:.lst=.def)
 
-TBB.DLL = $(TBB_NO_VERSION.DLL).$(SONAME_SUFFIX)
+TBB.DLL = libpt_tbb$(CPF_SUFFIX).$(DLL)
 TBB.LIB = $(TBB.DLL)
-TBB_NO_VERSION.DLL=libtbb$(CPF_SUFFIX)$(DEBUG_SUFFIX).$(DLL)
-LINK_TBB.LIB = $(TBB_NO_VERSION.DLL)
+LINK_TBB.LIB = $(TBB.LIB)
 
-MALLOC_NO_VERSION.DLL = libtbbmalloc$(DEBUG_SUFFIX).$(MALLOC_DLL)
 MALLOC.DEF = $(MALLOC_ROOT)/$(def_prefix)-tbbmalloc-export.def
-MALLOC.DLL = $(MALLOC_NO_VERSION.DLL).$(SONAME_SUFFIX)
-MALLOC.LIB = $(MALLOC_NO_VERSION.DLL)
-LINK_MALLOC.LIB = $(MALLOC_NO_VERSION.DLL)
+MALLOC.DLL = libpt_tbbmalloc.$(MALLOC_DLL)
+MALLOC.LIB = $(MALLOC.DLL)
+LINK_MALLOC.LIB = $(MALLOC.LIB)
 
-MALLOCPROXY_NO_VERSION.DLL = libtbbmalloc_proxy$(DEBUG_SUFFIX).$(DLL)
 MALLOCPROXY.DEF = $(MALLOC_ROOT)/$(def_prefix)-proxy-export.def
-MALLOCPROXY.DLL = $(MALLOCPROXY_NO_VERSION.DLL).$(SONAME_SUFFIX)
-MALLOCPROXY.LIB = $(MALLOCPROXY_NO_VERSION.DLL)
+MALLOCPROXY.DLL = libpt_tbbmalloc_proxy.$(DLL)
+MALLOCPROXY.LIB = $(MALLOCPROXY.DLL)
 LINK_MALLOCPROXY.LIB = $(MALLOCPROXY.LIB)
 
-RML_NO_VERSION.DLL = libirml$(DEBUG_SUFFIX).$(DLL)
 RML.DEF = $(RML_SERVER_ROOT)/lin-rml-export.def
-RML.DLL = $(RML_NO_VERSION.DLL).1
-RML.LIB = $(RML_NO_VERSION.DLL)
+RML.DLL = libpt_irml.$(DLL)
+RML.LIB = $(RML.DLL)
+LINK_RML.LIB = $(RML.LIB)
 
 TEST_LAUNCHER=sh $(tbb_root)/build/test_launcher.sh $(largs)
 
