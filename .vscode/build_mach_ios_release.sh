@@ -10,9 +10,9 @@ rm -rf macos_intel64_clang_cc*_ios*_release
 
 cd "${ROOT_DIR}/src/"
 
-make target=ios tbbmalloc_release arch=intel64 -j32 
-make target=ios rml_release arch=intel64 -j32
-make target=ios tbb_release arch=intel64 -j32
+#make target=ios tbbmalloc_release arch=intel64 -j32 
+#make target=ios rml_release arch=intel64 -j32
+#make target=ios tbb_release arch=intel64 -j32
 
 make target=ios tbbmalloc_release arch=arm64 -j32 
 make target=ios rml_release arch=arm64 -j32
