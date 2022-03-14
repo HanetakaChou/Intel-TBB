@@ -117,13 +117,13 @@ public:
 
     //! Yield control to OS
     /** Affects the calling thread. **/
-    static void yield();
+    static inline void yield();
 
     //! Join thread
-    static void join(handle_type handle);
+    static inline void join(handle_type handle);
 
     //! Detach thread
-    static void detach_thread(handle_type handle);
+    static inline void detach_thread(handle_type handle);
 private:
     cookie my_cookie; // epoch counter
     tbb::atomic<bool> in_wait;
@@ -166,7 +166,7 @@ inline thread_monitor::handle_type thread_monitor::launch( thread_routine_type t
 }
 #endif //__TBB_WIN8UI_SUPPORT && (_WIN32_WINNT < 0x0A00)
 
-void thread_monitor::join(handle_type handle) {
+inline void thread_monitor::join(handle_type handle) {
 #if TBB_USE_ASSERT
     DWORD res =
 #endif
@@ -179,7 +179,7 @@ void thread_monitor::join(handle_type handle) {
     __TBB_ASSERT( val, NULL );
 }
 
-void thread_monitor::detach_thread(handle_type handle) {
+inline void thread_monitor::detach_thread(handle_type handle) {
 #if TBB_USE_ASSERT
     BOOL val =
 #endif
@@ -220,11 +220,11 @@ inline thread_monitor::handle_type thread_monitor::launch( void* (*thread_routin
     return handle;
 }
 
-void thread_monitor::join(handle_type handle) {
+inline void thread_monitor::join(handle_type handle) {
     check(pthread_join(handle, NULL), "pthread_join");
 }
 
-void thread_monitor::detach_thread(handle_type handle) {
+inline void thread_monitor::detach_thread(handle_type handle) {
     check(pthread_detach(handle), "pthread_detach");
 }
 
