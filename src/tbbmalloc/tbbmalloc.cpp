@@ -38,13 +38,13 @@ namespace internal {
 
 // MALLOCLIB_NAME is the name of the TBB memory allocator library.
 #if _WIN32||_WIN64
-#define MALLOCLIB_NAME "tbbmalloc" DEBUG_SUFFIX ".dll"
+#define MALLOCLIB_NAME L"pt_tbbmalloc" DEBUG_SUFFIX ".dll"
 #elif __APPLE__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".dylib"
+#define MALLOCLIB_NAME "libpt_tbbmalloc" DEBUG_SUFFIX ".dylib"
 #elif __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __sun || _AIX || __ANDROID__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".so"
+#define MALLOCLIB_NAME "libpt_tbbmalloc" DEBUG_SUFFIX ".so"
 #elif __linux__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX  __TBB_STRING(.so.TBB_COMPATIBLE_INTERFACE_VERSION)
+#define MALLOCLIB_NAME "libpt_tbbmalloc" DEBUG_SUFFIX  __TBB_STRING(.so.TBB_COMPATIBLE_INTERFACE_VERSION)
 #else
 #error Unknown OS
 #endif
@@ -70,35 +70,47 @@ void init_tbbmalloc() {
 }
 
 #if !__TBB_SOURCE_DIRECTLY_INCLUDED
+
 #if USE_WINTHREAD
-extern "C" BOOL WINAPI DllMain( HINSTANCE /*hInst*/, DWORD callReason, LPVOID lpvReserved)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
 {
-    if (callReason==DLL_THREAD_DETACH)
+    switch (ul_reason_for_call)
     {
-        __TBB_mallocThreadShutdownNotification();
-    }
-    else if (callReason==DLL_PROCESS_DETACH)
-    {
-        __TBB_mallocProcessShutdownNotification(lpvReserved != NULL);
+    case DLL_PROCESS_ATTACH:
+        DisableThreadLibraryCalls(hModule);
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    default:
+        MALLOC_ASSERT(0, "we have disable the Thread Library Calls!");
     }
     return TRUE;
 }
-#else /* !USE_WINTHREAD */
+#endif
+
 struct RegisterProcessShutdownNotification {
 // Work around non-reentrancy in dlopen() on Android
 #if !__TBB_USE_DLOPEN_REENTRANCY_WORKAROUND
     RegisterProcessShutdownNotification() {
+#if USE_WINTHREAD
+        // prevents unloading, Windows case
+        LoadLibraryW(MALLOCLIB_NAME);
+#elif USE_PTHREAD
         // prevents unloading, POSIX case
         dlopen(MALLOCLIB_NAME, RTLD_NOW);
+#else
+    #error Must define USE_PTHREAD or USE_WINTHREAD
+#endif
     }
 #endif /* !__TBB_USE_DLOPEN_REENTRANCY_WORKAROUND */
     ~RegisterProcessShutdownNotification() {
-        __TBB_mallocProcessShutdownNotification(false);
+        __TBB_mallocProcessShutdownNotification();
     }
 };
 
 static RegisterProcessShutdownNotification reg;
-#endif /* !USE_WINTHREAD */
 #endif /* !__TBB_SOURCE_DIRECTLY_INCLUDED */
 
 } } // namespaces

@@ -62,25 +62,6 @@ static void* (*padded_allocate_handler)( size_t bytes, size_t alignment ) = &dum
 //! Handler for padded memory deallocation
 static void (*padded_free_handler)( void* p ) = &dummy_padded_free;
 
-#if TBB_USE_DEBUG
-#define DEBUG_SUFFIX "_debug"
-#else
-#define DEBUG_SUFFIX
-#endif /* TBB_USE_DEBUG */
-
-// MALLOCLIB_NAME is the name of the TBB memory allocator library.
-#if _WIN32||_WIN64
-#define MALLOCLIB_NAME "tbbmalloc" DEBUG_SUFFIX ".dll"
-#elif __APPLE__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".dylib"
-#elif __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __sun || _AIX || __ANDROID__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".so"
-#elif __linux__  // Note that order of these #elif's is important!
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX  __TBB_STRING(.so.TBB_COMPATIBLE_INTERFACE_VERSION)
-#else
-#error Unknown OS
-#endif
-
 //! Initialize the allocation/free handler pointers.
 /** Caller is responsible for ensuring this routine is called exactly once.
     The routine attempts to dynamically link with the TBB memory allocator.

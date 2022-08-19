@@ -25,12 +25,12 @@
 #include "../tbb/itt_notify.h" // for __TBB_load_ittnotify()
 
 #if USE_PTHREAD
-    #define TlsSetValue_func pthread_setspecific
-    #define TlsGetValue_func pthread_getspecific
     #define GetMyTID() pthread_self()
     #include <sched.h>
     inline void do_yield() {sched_yield();}
-    extern "C" { static void mallocThreadShutdownNotification(void*); }
+    #define TlsSetValue_func pthread_setspecific
+    #define TlsGetValue_func pthread_getspecific
+    static void mallocThreadShutdownNotification(void*);
     #if __sun || __SUNPRO_CC
     #define __asm__ asm
     #endif
@@ -38,22 +38,16 @@
 #elif USE_WINTHREAD
     #define GetMyTID() GetCurrentThreadId()
 #if __TBB_WIN8UI_SUPPORT
-    #include<thread>
-    #define TlsSetValue_func FlsSetValue
-    #define TlsGetValue_func FlsGetValue
-    #define TlsAlloc() FlsAlloc(NULL)
-    #define TLS_ALLOC_FAILURE FLS_OUT_OF_INDEXES
-    #define TlsFree FlsFree
+    #include <thread>
     inline void do_yield() {std::this_thread::yield();}
 #else
-    #define TlsSetValue_func TlsSetValue
-    #define TlsGetValue_func TlsGetValue
-    #define TLS_ALLOC_FAILURE TLS_OUT_OF_INDEXES
     inline void do_yield() {SwitchToThread();}
 #endif
+    #define TlsSetValue_func FlsSetValue
+    #define TlsGetValue_func FlsGetValue
+    static VOID NTAPI mallocThreadShutdownNotification(PVOID);
 #else
     #error Must define USE_PTHREAD or USE_WINTHREAD
-
 #endif
 
 
@@ -138,27 +132,33 @@ class ThreadId {
 public:
     static bool init() {
 #if USE_WINTHREAD
-        Tid_key = TlsAlloc();
-        if (Tid_key == TLS_ALLOC_FAILURE)
+        Tid_key = FlsAlloc(NULL);
+        if (FLS_OUT_OF_INDEXES == Tid_key)
             return false;
-#else
+#elif USE_PTHREAD
         int status = pthread_key_create( &Tid_key, NULL );
         if ( status ) {
             fprintf (stderr, "The memory manager cannot create tls key during initialization\n");
             return false;
         }
-#endif /* USE_WINTHREAD */
+#else
+    #error Must define USE_PTHREAD or USE_WINTHREAD
+#endif
         return true;
     }
     static void destroy() {
         if( Tid_key ) {
 #if USE_WINTHREAD
-            BOOL status = !(TlsFree( Tid_key ));  // fail is zero
-#else
-            int status = pthread_key_delete( Tid_key );
-#endif /* USE_WINTHREAD */
-            if ( status )
+            BOOL status = TlsFree( Tid_key );
+            if ( FALSE == status )
                 fprintf (stderr, "The memory manager cannot delete tls key\n");
+#elif USE_PTHREAD
+            int status = pthread_key_delete( Tid_key );
+            if ( 0 != status )
+                fprintf (stderr, "The memory manager cannot delete tls key\n");
+#else
+    #error Must define USE_PTHREAD or USE_WINTHREAD
+#endif
             Tid_key = 0;
         }
     }
@@ -212,26 +212,32 @@ public:
 bool TLSKey::init()
 {
 #if USE_WINTHREAD
-    TLS_pointer_key = TlsAlloc();
-    if (TLS_pointer_key == TLS_ALLOC_FAILURE)
+    TLS_pointer_key = FlsAlloc(mallocThreadShutdownNotification);
+    if (FLS_OUT_OF_INDEXES == TLS_pointer_key)
+        return false;
+#elif USE_PTHREAD
+    int status = pthread_key_create( &TLS_pointer_key, mallocThreadShutdownNotification );
+    if ( 0 != status )
         return false;
 #else
-    int status = pthread_key_create( &TLS_pointer_key, mallocThreadShutdownNotification );
-    if ( status )
-        return false;
-#endif /* USE_WINTHREAD */
+    #error Must define USE_PTHREAD or USE_WINTHREAD
+#endif
     return true;
 }
 
 bool TLSKey::destroy()
 {
 #if USE_WINTHREAD
-    BOOL status1 = !(TlsFree(TLS_pointer_key)); // fail is zero
-#else
+    BOOL status1 = FlsFree(TLS_pointer_key);
+    MALLOC_ASSERT(FALSE == status1, "The memory manager cannot delete tls key.");
+    return (FALSE != status1);
+#elif USE_PTHREAD 
     int status1 = pthread_key_delete(TLS_pointer_key);
-#endif /* USE_WINTHREAD */
-    MALLOC_ASSERT(!status1, "The memory manager cannot delete tls key.");
-    return status1==0;
+    MALLOC_ASSERT(0 != status1, "The memory manager cannot delete tls key.");
+    return (0 == status1);
+#else
+    #error Must define USE_PTHREAD or USE_WINTHREAD
+#endif
 }
 
 inline TLSData* TLSKey::getThreadMallocTLS() const
@@ -1930,7 +1936,7 @@ static MallocMutex initMutex;
     delivers a clean result. */
 static char VersionString[] = "\0" TBBMALLOC_VERSION_STRINGS;
 
-#if USE_PTHREAD && (__TBB_SOURCE_DIRECTLY_INCLUDED || __TBB_USE_DLOPEN_REENTRANCY_WORKAROUND)
+#if __TBB_SOURCE_DIRECTLY_INCLUDED || __TBB_USE_DLOPEN_REENTRANCY_WORKAROUND
 
 /* Decrease race interval between dynamic library unloading and pthread key
    destructor. Protect only Pthreads with supported unloading. */
@@ -2819,36 +2825,33 @@ static unsigned int threadGoingDownCount = 0;
  * For pthreads, the function is set as a callback in pthread_key_create for TLS bin.
  * It will be automatically called at thread exit with the key value as the argument,
  * unless that value is NULL.
- * For Windows, it is called from DllMain( DLL_THREAD_DETACH ).
+ * For Windows, the function is set as a callback in FlsAlloc for TLS bin.
+ * It will be automatically called at thread exit with the key value as the argument,
+ * unless that value is NULL.
  *
  * However neither of the above is called for the main process thread, so the routine
  * also needs to be called during the process shutdown.
  *
 */
 // TODO: Consider making this function part of class MemoryPool.
-void doThreadShutdownNotification(TLSData* tls, bool main_thread)
+void doThreadShutdownNotification(TLSData* tls)
 {
     TRACEF(( "[ScalableMalloc trace] Thread id %d blocks return start %d\n",
              getThreadId(),  threadGoingDownCount++ ));
 
-#if USE_PTHREAD
     if (tls) {
         if (!shutdownSync.threadDtorStart()) return;
         tls->getMemPool()->onThreadShutdown(tls);
         shutdownSync.threadDtorDone();
-    } else
-#endif
-    {
-        suppress_unused_warning(tls); // not used on Windows
+    } 
+    else {
         // The default pool is safe to use at this point:
-        //   on Linux, only the main thread can go here before destroying defaultMemPool;
-        //   on Windows, shutdown is synchronized via loader lock and isMallocInitialized().
-        // See also __TBB_mallocProcessShutdownNotification()
+        //   only the main thread can go here before destroying defaultMemPool;
         defaultMemPool->onThreadShutdown(defaultMemPool->getTLS(/*create=*/false));
         // Take lock to walk through other pools; but waiting might be dangerous at this point
         // (e.g. on Windows the main thread might deadlock)
         bool locked;
-        MallocMutex::scoped_lock lock(MemoryPool::memPoolListLock, /*wait=*/!main_thread, &locked);
+        MallocMutex::scoped_lock lock(MemoryPool::memPoolListLock, /*wait=*/false, &locked);
         if (locked) { // the list is safe to process
             for (MemoryPool *memPool = defaultMemPool->next; memPool; memPool = memPool->next)
                 memPool->onThreadShutdown(memPool->getTLS(/*create=*/false));
@@ -2859,29 +2862,27 @@ void doThreadShutdownNotification(TLSData* tls, bool main_thread)
 }
 
 #if USE_PTHREAD
-void mallocThreadShutdownNotification(void* arg)
+static void mallocThreadShutdownNotification(void* arg)
 {
     // The routine is called for each pool (as TLS dtor) on each thread, except for the main thread
     if (!isMallocInitialized()) return;
-    doThreadShutdownNotification((TLSData*)arg, false);
+    doThreadShutdownNotification((TLSData*)arg);
 }
 #else
-extern "C" void __TBB_mallocThreadShutdownNotification()
+static VOID NTAPI mallocThreadShutdownNotification(PVOID lpFlsData)
 {
-    // The routine is called once per thread on Windows
+    // The routine is called for each pool (as FLS callback) on each thread on Windows, except for the main thread
     if (!isMallocInitialized()) return;
-    doThreadShutdownNotification(NULL, false);
+    doThreadShutdownNotification((TLSData*)lpFlsData);
 }
 #endif
 
-extern "C" void __TBB_mallocProcessShutdownNotification(bool windows_process_dying)
+extern "C" void __TBB_mallocProcessShutdownNotification()
 {
     if (!isMallocInitialized()) return;
 
-    // Don't clean allocator internals if the entire process is exiting
-    if (!windows_process_dying) {
-        doThreadShutdownNotification(NULL, /*main_thread=*/true);
-    }
+    doThreadShutdownNotification(NULL);
+
 #if  __TBB_MALLOC_LOCACHE_STAT
     printf("cache hit ratio %f, size hit %f\n",
            1.*cacheHits/mallocCalls, 1.*memHitKB/memAllocKB);

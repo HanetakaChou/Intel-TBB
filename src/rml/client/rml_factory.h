@@ -16,25 +16,6 @@
 
 // No ifndef guard because this file is not a normal include file.
 
-#if TBB_USE_DEBUG
-#define DEBUG_SUFFIX "_debug"
-#else
-#define DEBUG_SUFFIX
-#endif /* TBB_USE_DEBUG */
-
-// RML_SERVER_NAME is the name of the RML server library.
-#if _WIN32||_WIN64
-#define RML_SERVER_NAME "irml" DEBUG_SUFFIX ".dll"
-#elif __APPLE__
-#define RML_SERVER_NAME "libirml" DEBUG_SUFFIX ".dylib"
-#elif __linux__
-#define RML_SERVER_NAME "libirml" DEBUG_SUFFIX ".so.1"
-#elif __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __sun || _AIX
-#define RML_SERVER_NAME "libirml" DEBUG_SUFFIX ".so"
-#else
-#error Unknown OS
-#endif
-
 const ::rml::versioned_object::version_type CLIENT_VERSION = 2;
 
 extern "C"
