@@ -16,7 +16,17 @@
 ; Each of these sections is in alphabetical order.
 
 EXPORTS
-
 #define __TBB_SYMBOL( sym ) sym
 #include "win64-tbb-export.lst"
+	scalable_calloc
+	scalable_free
+	scalable_malloc
+	scalable_realloc
+	scalable_posix_memalign
+	scalable_aligned_malloc
+	scalable_aligned_realloc
+	scalable_aligned_free
+	scalable_msize
+	scalable_allocation_mode
+	scalable_allocation_command
 

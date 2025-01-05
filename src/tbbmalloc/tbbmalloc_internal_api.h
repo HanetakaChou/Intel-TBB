@@ -31,9 +31,6 @@ extern "C"
 
     void MallocInitializeITT();
     void __TBB_mallocProcessShutdownNotification(bool);
-#if _WIN32 || _WIN64
-    void __TBB_mallocThreadShutdownNotification();
-#endif
 
 #ifdef __cplusplus
 } /* extern "C" */
