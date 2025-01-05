@@ -24,8 +24,6 @@
 
 #include "tbb/task_scheduler_init.h"
 
-#include "dynamic_link.h"
-
 namespace tbb
 {
     namespace internal
@@ -38,27 +36,16 @@ namespace tbb
 #if __TBB_SURVIVE_THREAD_SWITCH
         // Support for interoperability with Intel(R) Cilk(TM) Plus.
 
-#if _WIN32
-#define CILKLIB_NAME "cilkrts20.dll"
-#else
-#define CILKLIB_NAME "libcilkrts.so"
-#endif
-
         //! Handler for interoperation with cilkrts library.
         static __cilk_tbb_retcode (*watch_stack_handler)(struct __cilk_tbb_unwatch_thunk *u,
                                                          struct __cilk_tbb_stack_op_thunk o);
-
-        //! Table describing how to link the handlers.
-        static const dynamic_link_descriptor CilkLinkTable[] = {
-            DLD_NOWEAK(__cilkrts_watch_stack, watch_stack_handler)};
 
         static atomic<do_once_state> cilkrts_load_state;
 
         bool initialize_cilk_interop()
         {
-            // Pinning can fail. This is a normal situation, and means that the current
-            // thread does not use cilkrts and consequently does not need interop.
-            return dynamic_link(CILKLIB_NAME, CilkLinkTable, 1, /*handle=*/0, DYNAMIC_LINK_GLOBAL);
+            watch_stack_handler = NULL;
+            return false;
         }
 #endif /* __TBB_SURVIVE_THREAD_SWITCH */
 
@@ -72,7 +59,7 @@ namespace tbb
 #if USE_PTHREAD
             int status = theTLS.create(auto_terminate);
 #else
-            int status = theTLS.create();
+            int status = theTLS.create(auto_terminate);
 #endif
             if (status)
                 handle_perror(status, "TBB failed to initialize task scheduler TLS\n");
@@ -91,7 +78,6 @@ namespace tbb
             int status = theTLS.destroy();
             if (status)
                 runtime_warning("failed to destroy task scheduler TLS: %s", strerror(status));
-            dynamic_unlink_all();
         }
 
         rml::tbb_server *governor::create_rml_server(rml::tbb_client &client)
@@ -235,7 +221,11 @@ namespace tbb
             return ok;
         }
 
+#if USE_PTHREAD
         void governor::auto_terminate(void *arg)
+#else
+        void NTAPI governor::auto_terminate(void *arg)
+#endif
         {
             generic_scheduler *s = tls_scheduler_of(uintptr_t(arg)); // arg is equivalent to theTLS.get()
             if (s && s->my_auto_initialized)
@@ -263,7 +253,7 @@ namespace tbb
             }
 #if __TBB_SURVIVE_THREAD_SWITCH
             if (watch_stack_handler)
-                PrintExtraVersionInfo("CILK", CILKLIB_NAME);
+                PrintExtraVersionInfo("CILK", "N/A");
 #endif /* __TBB_SURVIVE_THREAD_SWITCH */
         }
 
@@ -351,41 +341,12 @@ namespace tbb
         }
 #endif /* __TBB_WEAK_SYMBOLS_PRESENT */
 
-// Handlers for communication with TBBbind
-#if _WIN32 || _WIN64 || __linux__
-        static void (*initialize_numa_topology_ptr)(
-            size_t groups_num, int &nodes_count, int *&indexes_list, int *&concurrency_list) = NULL;
-#endif /* _WIN32 || _WIN64 || __linux__ */
-
+        // Handlers for communication with TBBbind
         static binding_handler *(*allocate_binding_handler_ptr)(int slot_num) = NULL;
         static void (*deallocate_binding_handler_ptr)(binding_handler *handler_ptr) = NULL;
 
         static void (*bind_to_node_ptr)(binding_handler *handler_ptr, int slot_num, int numa_id) = NULL;
         static void (*restore_affinity_ptr)(binding_handler *handler_ptr, int slot_num) = NULL;
-
-#if _WIN32 || _WIN64 || __linux__
-        // Table describing how to link the handlers.
-        static const dynamic_link_descriptor TbbBindLinkTable[] = {
-            DLD(initialize_numa_topology, initialize_numa_topology_ptr),
-            DLD(allocate_binding_handler, allocate_binding_handler_ptr),
-            DLD(deallocate_binding_handler, deallocate_binding_handler_ptr),
-            DLD(bind_to_node, bind_to_node_ptr),
-            DLD(restore_affinity, restore_affinity_ptr)};
-
-        static const unsigned LinkTableSize = 5;
-
-#if TBB_USE_DEBUG
-#define DEBUG_SUFFIX "_debug"
-#else
-#define DEBUG_SUFFIX
-#endif /* TBB_USE_DEBUG */
-
-#if _WIN32 || _WIN64
-#define TBBBIND_NAME "tbbbind" DEBUG_SUFFIX ".dll"
-#elif __linux__
-#define TBBBIND_NAME "libtbbbind" DEBUG_SUFFIX __TBB_STRING(.so.TBB_COMPATIBLE_INTERFACE_VERSION)
-#endif /* __linux__ */
-#endif /* _WIN32 || _WIN64 || __linux__ */
 
         // Stubs that will be used if TBBbind library is unavailable.
         static binding_handler *dummy_allocate_binding_handler(int) { return NULL; }
@@ -413,34 +374,6 @@ namespace tbb
             void initialization_impl()
             {
                 governor::one_time_init();
-
-#if _WIN32 || _WIN64 || __linux__
-                bool load_tbbbind = true;
-#if _WIN32 && !_WIN64
-                // For 32-bit Windows applications, process affinity masks can only support up to 32 logical CPUs.
-                SYSTEM_INFO si;
-                GetNativeSystemInfo(&si);
-                load_tbbbind = si.dwNumberOfProcessors <= 32;
-#endif /* _WIN32 && !_WIN64 */
-
-                if (load_tbbbind && dynamic_link(TBBBIND_NAME, TbbBindLinkTable, LinkTableSize))
-                {
-                    int number_of_groups = 1;
-#if _WIN32 || _WIN64
-                    number_of_groups = NumberOfProcessorGroups();
-#endif /* _WIN32 || _WIN64 */
-                    initialize_numa_topology_ptr(
-                        number_of_groups, numa_nodes_count, numa_indexes, default_concurrency_list);
-
-                    if (numa_nodes_count == 1 && numa_indexes[0] >= 0)
-                    {
-                        __TBB_ASSERT(default_concurrency_list[numa_indexes[0]] == (int)governor::default_num_threads(),
-                                     "default_concurrency() should be equal to governor::default_num_threads() on single"
-                                     "NUMA node systems.");
-                    }
-                    return;
-                }
-#endif /* _WIN32 || _WIN64 || __linux__ */
 
                 static int dummy_index = -1;
                 static int dummy_concurrency = governor::default_num_threads();

@@ -29,33 +29,19 @@
 #define GetMyTID() pthread_self()
 #include <sched.h>
 inline void do_yield() { sched_yield(); }
-extern "C"
-{
-    static void mallocThreadShutdownNotification(void *);
-}
+static void mallocThreadShutdownNotification(void *);
 #if __sun || __SUNPRO_CC
 #define __asm__ asm
 #endif
 #include <unistd.h> // sysconf(_SC_PAGESIZE)
 #elif USE_WINTHREAD
 #define GetMyTID() GetCurrentThreadId()
-#if __TBB_WIN8UI_SUPPORT
-#include <thread>
 #define TlsSetValue_func FlsSetValue
 #define TlsGetValue_func FlsGetValue
-#define TlsAlloc() FlsAlloc(NULL)
-#define TLS_ALLOC_FAILURE FLS_OUT_OF_INDEXES
-#define TlsFree FlsFree
-inline void do_yield() { std::this_thread::yield(); }
-#else
-#define TlsSetValue_func TlsSetValue
-#define TlsGetValue_func TlsGetValue
-#define TLS_ALLOC_FAILURE TLS_OUT_OF_INDEXES
 inline void do_yield() { SwitchToThread(); }
-#endif
+static void NTAPI mallocThreadShutdownNotification(void *);
 #else
 #error Must define USE_PTHREAD or USE_WINTHREAD
-
 #endif
 
 #define FREELIST_NONBLOCKING 1
@@ -151,8 +137,8 @@ namespace rml
             static bool init()
             {
 #if USE_WINTHREAD
-                Tid_key = TlsAlloc();
-                if (Tid_key == TLS_ALLOC_FAILURE)
+                Tid_key = FlsAlloc(NULL);
+                if (Tid_key == FLS_OUT_OF_INDEXES)
                     return false;
 #else
                 int status = pthread_key_create(&Tid_key, NULL);
@@ -169,7 +155,7 @@ namespace rml
                 if (Tid_key)
                 {
 #if USE_WINTHREAD
-                    BOOL status = !(TlsFree(Tid_key)); // fail is zero
+                    BOOL status = !(FlsFree(Tid_key)); // fail is zero
 #else
                     int status = pthread_key_delete(Tid_key);
 #endif /* USE_WINTHREAD */
@@ -229,8 +215,8 @@ namespace rml
         bool TLSKey::init()
         {
 #if USE_WINTHREAD
-            TLS_pointer_key = TlsAlloc();
-            if (TLS_pointer_key == TLS_ALLOC_FAILURE)
+            TLS_pointer_key = FlsAlloc(mallocThreadShutdownNotification);
+            if (TLS_pointer_key == FLS_OUT_OF_INDEXES)
                 return false;
 #else
             int status = pthread_key_create(&TLS_pointer_key, mallocThreadShutdownNotification);
@@ -243,7 +229,7 @@ namespace rml
         bool TLSKey::destroy()
         {
 #if USE_WINTHREAD
-            BOOL status1 = !(TlsFree(TLS_pointer_key)); // fail is zero
+            BOOL status1 = !(FlsFree(TLS_pointer_key)); // fail is zero
 #else
             int status1 = pthread_key_delete(TLS_pointer_key);
 #endif /* USE_WINTHREAD */
@@ -643,7 +629,7 @@ namespace rml
                 // should be called only for the current thread
                 bool released = cleanBins ? cleanupBlockBins() : false;
                 // both cleanups to be called, and the order is not important
-                return released | lloc.externalCleanup(&memPool->extMemPool) | freeSlabBlocks.externalCleanup();
+                return released | lloc.externalCleanup(&memPool->extMemPool) || freeSlabBlocks.externalCleanup();
             }
             bool cleanupBlockBins();
             void markUsed() { unused = false; }  // called by owner when TLS touched
@@ -2089,7 +2075,7 @@ namespace rml
             delivers a clean result. */
         static char VersionString[] = "\0" TBBMALLOC_VERSION_STRINGS;
 
-#if USE_PTHREAD && (__TBB_SOURCE_DIRECTLY_INCLUDED || __TBB_USE_DLOPEN_REENTRANCY_WORKAROUND)
+#if (__TBB_SOURCE_DIRECTLY_INCLUDED || __TBB_USE_DLOPEN_REENTRANCY_WORKAROUND)
 
         /* Decrease race interval between dynamic library unloading and pthread key
            destructor. Protect only Pthreads with supported unloading. */
@@ -2138,7 +2124,7 @@ namespace rml
             void processExit() {}
         };
 
-#endif // USE_PTHREAD && (__TBB_SOURCE_DIRECTLY_INCLUDED || __TBB_USE_DLOPEN_REENTRANCY_WORKAROUND)
+#endif // (__TBB_SOURCE_DIRECTLY_INCLUDED || __TBB_USE_DLOPEN_REENTRANCY_WORKAROUND)
 
         static ShutdownSync shutdownSync;
 
@@ -3064,7 +3050,6 @@ void doThreadShutdownNotification(TLSData *tls, bool main_thread)
     TRACEF(("[ScalableMalloc trace] Thread id %d blocks return start %d\n",
             getThreadId(), threadGoingDownCount++));
 
-#if USE_PTHREAD
     if (tls)
     {
         if (!shutdownSync.threadDtorStart())
@@ -3072,46 +3057,21 @@ void doThreadShutdownNotification(TLSData *tls, bool main_thread)
         tls->getMemPool()->onThreadShutdown(tls);
         shutdownSync.threadDtorDone();
     }
-    else
-#endif
-    {
-        suppress_unused_warning(tls); // not used on Windows
-        // The default pool is safe to use at this point:
-        //   on Linux, only the main thread can go here before destroying defaultMemPool;
-        //   on Windows, shutdown is synchronized via loader lock and isMallocInitialized().
-        // See also __TBB_mallocProcessShutdownNotification()
-        defaultMemPool->onThreadShutdown(defaultMemPool->getTLS(/*create=*/false));
-        // Take lock to walk through other pools; but waiting might be dangerous at this point
-        // (e.g. on Windows the main thread might deadlock)
-        bool locked;
-        MallocMutex::scoped_lock lock(MemoryPool::memPoolListLock, /*wait=*/!main_thread, &locked);
-        if (locked)
-        { // the list is safe to process
-            for (MemoryPool *memPool = defaultMemPool->next; memPool; memPool = memPool->next)
-                memPool->onThreadShutdown(memPool->getTLS(/*create=*/false));
-        }
-    }
 
     TRACEF(("[ScalableMalloc trace] Thread id %d blocks return end\n", getThreadId()));
 }
 
 #if USE_PTHREAD
 void mallocThreadShutdownNotification(void *arg)
+#else
+void NTAPI mallocThreadShutdownNotification(void *arg)
+#endif
 {
     // The routine is called for each pool (as TLS dtor) on each thread, except for the main thread
     if (!isMallocInitialized())
         return;
     doThreadShutdownNotification((TLSData *)arg, false);
 }
-#else
-extern "C" void __TBB_mallocThreadShutdownNotification()
-{
-    // The routine is called once per thread on Windows
-    if (!isMallocInitialized())
-        return;
-    doThreadShutdownNotification(NULL, false);
-}
-#endif
 
 extern "C" void __TBB_mallocProcessShutdownNotification(bool windows_process_dying)
 {

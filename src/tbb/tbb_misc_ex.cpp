@@ -21,7 +21,6 @@
 
 #if !defined(__TBB_HardwareConcurrency)
 
-#include "dynamic_link.h"
 #include <stdio.h>
 #include <limits.h>
 
@@ -302,12 +301,7 @@ namespace tbb
 
         ProcessorGroupInfo theProcessorGroups[MaxProcessorGroups];
 
-        struct TBB_GROUP_AFFINITY
-        {
-            DWORD_PTR Mask;
-            WORD Group;
-            WORD Reserved[3];
-        };
+        typedef GROUP_AFFINITY TBB_GROUP_AFFINITY;
 
         static DWORD(WINAPI *TBB_GetActiveProcessorCount)(WORD groupIndex) = NULL;
         static WORD(WINAPI *TBB_GetActiveProcessorGroupCount)() = NULL;
@@ -315,18 +309,13 @@ namespace tbb
                                                         const TBB_GROUP_AFFINITY *newAff, TBB_GROUP_AFFINITY *prevAff);
         static BOOL(WINAPI *TBB_GetThreadGroupAffinity)(HANDLE hThread, TBB_GROUP_AFFINITY *);
 
-        static const dynamic_link_descriptor ProcessorGroupsApiLinkTable[] = {
-            DLD(GetActiveProcessorCount, TBB_GetActiveProcessorCount), DLD(GetActiveProcessorGroupCount, TBB_GetActiveProcessorGroupCount), DLD(SetThreadGroupAffinity, TBB_SetThreadGroupAffinity), DLD(GetThreadGroupAffinity, TBB_GetThreadGroupAffinity)};
-
         static void initialize_hardware_concurrency_info()
         {
-#if __TBB_WIN8UI_SUPPORT
-            // For these applications processor groups info is unavailable
-            // Setting up a number of processors for one processor group
-            theProcessorGroups[0].numProcs = theProcessorGroups[0].numProcsRunningTotal = std::thread::hardware_concurrency();
-#else  /* __TBB_WIN8UI_SUPPORT */
-            dynamic_link("Kernel32.dll", ProcessorGroupsApiLinkTable,
-                         sizeof(ProcessorGroupsApiLinkTable) / sizeof(dynamic_link_descriptor));
+            TBB_GetActiveProcessorCount = GetActiveProcessorCount;
+            TBB_GetActiveProcessorGroupCount = GetActiveProcessorGroupCount;
+            TBB_SetThreadGroupAffinity = SetThreadGroupAffinity;
+            TBB_GetThreadGroupAffinity = GetThreadGroupAffinity;
+
             SYSTEM_INFO si;
             GetNativeSystemInfo(&si);
             DWORD_PTR pam, sam, m = 1;
@@ -367,7 +356,6 @@ namespace tbb
                     __TBB_ASSERT(nprocs == (int)TBB_GetActiveProcessorCount(TBB_ALL_PROCESSOR_GROUPS), NULL);
                 }
             }
-#endif /* __TBB_WIN8UI_SUPPORT */
 
             PrintExtraVersionInfo("Processor groups", "%d", ProcessorGroupInfo::NumGroups);
             if (ProcessorGroupInfo::NumGroups > 1)

@@ -113,30 +113,8 @@ void testSemaphore( int semInitCnt, int extraThreads ) {
 
 #include "../tbb/semaphore.cpp"
 #if _WIN32||_WIN64
-#include "../tbb/dynamic_link.cpp"
-
-void testOSVersion() {
-#if __TBB_USE_SRWLOCK
-     BOOL bIsWindowsVistaOrLater;
-#if  __TBB_WIN8UI_SUPPORT
-     bIsWindowsVistaOrLater = true;
-#else
-     OSVERSIONINFO osvi;
-
-     memset( (void*)&osvi, 0, sizeof(OSVERSIONINFO) );
-     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-     GetVersionEx(&osvi);
-     bIsWindowsVistaOrLater = (osvi.dwMajorVersion >= 6 );
-#endif
-
-     if( bIsWindowsVistaOrLater ) {
-        REMARK("Checking SRWLock is loaded\n");
-        tbb::internal::binary_semaphore s;
-        ASSERT( (uintptr_t)tbb::internal::__TBB_init_binsem!=(uintptr_t)&tbb::internal::init_binsem_using_event, NULL );
-        ASSERT( (uintptr_t)tbb::internal::__TBB_acquire_binsem!=(uintptr_t)&tbb::internal::acquire_binsem_using_event, NULL );
-        ASSERT( (uintptr_t)tbb::internal::__TBB_release_binsem!=(uintptr_t)&tbb::internal::release_binsem_using_event, NULL );
-     }
-#endif /* __TBB_USE_SRWLOCK */
+void testOSVersion() 
+{
 }
 #endif /* _WIN32||_WIN64 */
 

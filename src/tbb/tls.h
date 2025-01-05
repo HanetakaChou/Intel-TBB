@@ -28,14 +28,12 @@ namespace tbb
 
     namespace internal
     {
-
-        typedef void (*tls_dtor_t)(void *);
-
         //! Basic cross-platform wrapper class for TLS operations.
         template <typename T>
         class basic_tls
         {
 #if USE_PTHREAD
+            typedef void (*tls_dtor_t)(void *);
             typedef pthread_key_t tls_key_t;
 
         public:
@@ -46,33 +44,16 @@ namespace tbb
             int destroy() { return pthread_key_delete(my_key); }
             void set(T value) { pthread_setspecific(my_key, (void *)value); }
             T get() { return (T)pthread_getspecific(my_key); }
-#else /* USE_WINTHREAD */
+#else  /* USE_WINTHREAD */
+            typedef void(NTAPI *tls_dtor_t)(void *);
             typedef DWORD tls_key_t;
 
         public:
-#if !__TBB_WIN8UI_SUPPORT
-            int create()
+            int create(tls_dtor_t dtor = NULL)
             {
-                tls_key_t tmp = TlsAlloc();
-                if (tmp == TLS_OUT_OF_INDEXES)
-                    return TLS_OUT_OF_INDEXES;
-                my_key = tmp;
-                return 0;
-            }
-            int destroy()
-            {
-                TlsFree(my_key);
-                my_key = 0;
-                return 0;
-            }
-            void set(T value) { TlsSetValue(my_key, (LPVOID)value); }
-            T get() { return (T)TlsGetValue(my_key); }
-#else  /*!__TBB_WIN8UI_SUPPORT*/
-            int create()
-            {
-                tls_key_t tmp = FlsAlloc(NULL);
-                if (tmp == (DWORD)0xFFFFFFFF)
-                    return (DWORD)0xFFFFFFFF;
+                tls_key_t tmp = FlsAlloc(dtor);
+                if (tmp == FLS_OUT_OF_INDEXES)
+                    return FLS_OUT_OF_INDEXES;
                 my_key = tmp;
                 return 0;
             }
@@ -84,7 +65,6 @@ namespace tbb
             }
             void set(T value) { FlsSetValue(my_key, (LPVOID)value); }
             T get() { return (T)FlsGetValue(my_key); }
-#endif /* !__TBB_WIN8UI_SUPPORT */
 #endif /* USE_WINTHREAD */
         private:
             tls_key_t my_key;

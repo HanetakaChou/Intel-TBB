@@ -317,6 +317,7 @@ public:
 // Block header is used during block coalescing
 // and must be preserved in used blocks.
 class BlockI {
+public:
     intptr_t     blockState[2];
 };
 
