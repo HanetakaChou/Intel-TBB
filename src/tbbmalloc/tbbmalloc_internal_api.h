@@ -18,19 +18,21 @@
 #define __TBB_tbbmalloc_internal_api_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif /* __cplusplus */
 
-typedef enum {
-    /* Tune usage of source included allocator. Selected value is large enough
-       to not intercept with constants from AllocationModeParam. */
-    TBBMALLOC_INTERNAL_SOURCE_INCLUDED = 65536
-} AllocationModeInternalParam;
+    typedef enum
+    {
+        /* Tune usage of source included allocator. Selected value is large enough
+           to not intercept with constants from AllocationModeParam. */
+        TBBMALLOC_INTERNAL_SOURCE_INCLUDED = 65536
+    } AllocationModeInternalParam;
 
-void MallocInitializeITT();
-void __TBB_mallocProcessShutdownNotification(bool);
-#if _WIN32||_WIN64
-void __TBB_mallocThreadShutdownNotification();
+    void MallocInitializeITT();
+    void __TBB_mallocProcessShutdownNotification(bool);
+#if _WIN32 || _WIN64
+    void __TBB_mallocThreadShutdownNotification();
 #endif
 
 #ifdef __cplusplus
