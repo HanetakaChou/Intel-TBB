@@ -687,12 +687,6 @@ private:
     {
         NativeParallelForTask &self = *static_cast<NativeParallelForTask *>(object);
         (self.body)(self.index);
-#if HARNESS_TBBMALLOC_THREAD_SHUTDOWN && __TBB_SOURCE_DIRECTLY_INCLUDED && (_WIN32 || _WIN64)
-        // in those cases can't release per-thread cache automatically,
-        // so do it manually
-        // TODO: investigate less-intrusive way to do it, for example via FLS keys
-        __TBB_mallocThreadShutdownNotification();
-#endif
         return 0;
     }
 };

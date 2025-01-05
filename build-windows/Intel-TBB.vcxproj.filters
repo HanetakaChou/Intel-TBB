@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="old">
+      <UniqueIdentifier>{b0af998f-387f-493f-a16d-ccaa65d7be10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rml">
+      <UniqueIdentifier>{ba906a9a-3d45-4f4e-b441-f474fcaf5e9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rml\client">
+      <UniqueIdentifier>{c5d2a5f7-488f-417e-8a77-c8c2f0d27e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tbbmalloc">
+      <UniqueIdentifier>{8bba9ca2-3ab4-4851-8ee6-a52ccb998ebc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tbb">
+      <UniqueIdentifier>{ccec3338-1996-471f-beec-acf94b1b890f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tbb\ia32-masm">
+      <UniqueIdentifier>{933acb51-a004-4d8f-ad9a-a14fca404b57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tbb\intel64-masm">
+      <UniqueIdentifier>{971f689e-c7e1-4aa6-a45f-bb3f065a3482}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\old\concurrent_vector_v2.cpp">
+      <Filter>old</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\old\concurrent_queue_v2.cpp">
+      <Filter>old</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\old\spin_rw_mutex_v2.cpp">
+      <Filter>old</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\old\task_v2.cpp">
+      <Filter>old</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rml\server\rml_server.cpp">
+      <Filter>rml\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rml\client\rml_tbb.cpp">
+      <Filter>rml\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbbmalloc\backend.cpp">
+      <Filter>tbbmalloc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbbmalloc\backref.cpp">
+      <Filter>tbbmalloc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbbmalloc\frontend.cpp">
+      <Filter>tbbmalloc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbbmalloc\large_objects.cpp">
+      <Filter>tbbmalloc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbbmalloc\tbbmalloc.cpp">
+      <Filter>tbbmalloc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\concurrent_hash_map.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\concurrent_queue.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\concurrent_vector.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\itt_notify.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\cache_aligned_allocator.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\pipeline.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\private_server.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\queuing_mutex.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\queuing_rw_mutex.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\reader_writer_lock.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\spin_rw_mutex.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\x86_rtm_rw_mutex.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\spin_mutex.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\critical_section.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\mutex.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\recursive_mutex.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\condition_variable.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\tbb_thread.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\concurrent_monitor.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\semaphore.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\tbb_misc.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\tbb_misc_ex.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\task.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\task_group_context.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\governor.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\market.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\arena.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\scheduler.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\observer_proxy.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\tbb_statistics.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tbb\tbb_main.cpp">
+      <Filter>tbb</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="..\src\tbb\ia32-masm\atomic_support.asm">
+      <Filter>tbb\ia32-masm</Filter>
+    </MASM>
+    <MASM Include="..\src\tbb\ia32-masm\itsx.asm">
+      <Filter>tbb\ia32-masm</Filter>
+    </MASM>
+    <MASM Include="..\src\tbb\ia32-masm\lock_byte.asm">
+      <Filter>tbb\ia32-masm</Filter>
+    </MASM>
+    <MASM Include="..\src\tbb\intel64-masm\atomic_support.asm">
+      <Filter>tbb\intel64-masm</Filter>
+    </MASM>
+    <MASM Include="..\src\tbb\intel64-masm\intel64_misc.asm">
+      <Filter>tbb\intel64-masm</Filter>
+    </MASM>
+    <MASM Include="..\src\tbb\intel64-masm\itsx.asm">
+      <Filter>tbb\intel64-masm</Filter>
+    </MASM>
+  </ItemGroup>
+</Project>
