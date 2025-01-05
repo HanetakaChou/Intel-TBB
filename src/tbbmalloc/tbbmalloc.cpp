@@ -17,8 +17,6 @@
 #include "TypeDefinitions.h" // Customize.h and proxy.h get included
 #include "tbbmalloc_internal_api.h"
 
-#include "../tbb/tbb_assert_impl.h" // Out-of-line TBB assertion handling routines are instantiated here.
-
 #undef UNICODE
 
 #if USE_PTHREAD
@@ -31,71 +29,19 @@ namespace rml
 {
     namespace internal
     {
-
-#if TBB_USE_DEBUG
-#define DEBUG_SUFFIX "_debug"
-#else
-#define DEBUG_SUFFIX
-#endif /* TBB_USE_DEBUG */
-
-// MALLOCLIB_NAME is the name of the TBB memory allocator library.
-#if _WIN32 || _WIN64
-#define MALLOCLIB_NAME "tbbmalloc" DEBUG_SUFFIX ".dll"
-#elif __APPLE__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".dylib"
-#elif __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __sun || _AIX || __ANDROID__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".so"
-#elif __linux__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX __TBB_STRING(.so.TBB_COMPATIBLE_INTERFACE_VERSION)
-#else
-#error Unknown OS
-#endif
-
         void init_tbbmalloc()
         {
 #if DO_ITT_NOTIFY
             MallocInitializeITT();
 #endif
-
-/* Preventing TBB allocator library from unloading to prevent
-   resource leak, as memory is not released on the library unload.
-*/
-#if USE_WINTHREAD && !__TBB_SOURCE_DIRECTLY_INCLUDED && !__TBB_WIN8UI_SUPPORT
-            // Prevent Windows from displaying message boxes if it fails to load library
-            UINT prev_mode = SetErrorMode(SEM_FAILCRITICALERRORS);
-            HMODULE lib;
-            BOOL ret = GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN,
-                                         (LPCTSTR)&scalable_malloc, &lib);
-            MALLOC_ASSERT(lib && ret, "Allocator can't find itself.");
-            SetErrorMode(prev_mode);
-#endif /* USE_PTHREAD && !__TBB_SOURCE_DIRECTLY_INCLUDED */
         }
 
 #if !__TBB_SOURCE_DIRECTLY_INCLUDED
-#if USE_WINTHREAD
-        extern "C" BOOL WINAPI DllMain(HINSTANCE /*hInst*/, DWORD callReason, LPVOID lpvReserved)
-        {
-            if (callReason == DLL_THREAD_DETACH)
-            {
-                __TBB_mallocThreadShutdownNotification();
-            }
-            else if (callReason == DLL_PROCESS_DETACH)
-            {
-                __TBB_mallocProcessShutdownNotification(lpvReserved != NULL);
-            }
-            return TRUE;
-        }
-#else /* !USE_WINTHREAD */
         struct RegisterProcessShutdownNotification
         {
-// Work around non-reentrancy in dlopen() on Android
-#if !__TBB_USE_DLOPEN_REENTRANCY_WORKAROUND
             RegisterProcessShutdownNotification()
             {
-                // prevents unloading, POSIX case
-                dlopen(MALLOCLIB_NAME, RTLD_NOW);
             }
-#endif /* !__TBB_USE_DLOPEN_REENTRANCY_WORKAROUND */
             ~RegisterProcessShutdownNotification()
             {
                 __TBB_mallocProcessShutdownNotification(false);
@@ -103,9 +49,7 @@ namespace rml
         };
 
         static RegisterProcessShutdownNotification reg;
-#endif /* !USE_WINTHREAD */
 #endif /* !__TBB_SOURCE_DIRECTLY_INCLUDED */
-
     }
 } // namespaces
 

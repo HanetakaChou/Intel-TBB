@@ -1,0 +1,523 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		84D8D5E92F0FCBC900C603CA /* spin_mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 719BEFFD039E0FDA1C5ACB55 /* spin_mutex.cpp */; };
+		84D8D5EA2F0FCBC900C603CA /* private_server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23286E57BC7BA5590493FFFD /* private_server.cpp */; };
+		84D8D5EB2F0FCBC900C603CA /* itt_notify.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89B77C086C1BC06214202682 /* itt_notify.cpp */; };
+		84D8D5EC2F0FCBC900C603CA /* tbb_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC88799DB037CD81D2CEE716 /* tbb_main.cpp */; };
+		84D8D5ED2F0FCBC900C603CA /* concurrent_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC7AD16C3845C0C5C06608C7 /* concurrent_queue.cpp */; };
+		84D8D5EE2F0FCBC900C603CA /* tbb_misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3B7E845D6FB1D6862A5C7B4 /* tbb_misc.cpp */; };
+		84D8D5EF2F0FCBC900C603CA /* concurrent_queue_v2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3883B11E50804CF020FE329 /* concurrent_queue_v2.cpp */; };
+		84D8D5F02F0FCBC900C603CA /* recursive_mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 776BC39F0FFF64D0A9783C2B /* recursive_mutex.cpp */; };
+		84D8D5F12F0FCBC900C603CA /* tbb_thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA4EBCCD5D75196FAB4A4E77 /* tbb_thread.cpp */; };
+		84D8D5F22F0FCBC900C603CA /* semaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D93D8B05B7C5B5D73C3A758B /* semaphore.cpp */; };
+		84D8D5F32F0FCBC900C603CA /* backend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F9BE2966FC169558D6DF1C /* backend.cpp */; };
+		84D8D5F42F0FCBC900C603CA /* pipeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 363A4AAF1BC9E6AE35311C0C /* pipeline.cpp */; };
+		84D8D5F52F0FCBC900C603CA /* condition_variable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 134D503949948A615CB3503F /* condition_variable.cpp */; };
+		84D8D5F62F0FCBC900C603CA /* cache_aligned_allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E0DD0C3A8FC0236C7B69467 /* cache_aligned_allocator.cpp */; };
+		84D8D5F72F0FCBC900C603CA /* queuing_rw_mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8AD0855AFAAFAD3E8E0DE52 /* queuing_rw_mutex.cpp */; };
+		84D8D5F82F0FCBC900C603CA /* spin_rw_mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A109D7994AEFBCF9F29AC93 /* spin_rw_mutex.cpp */; };
+		84D8D5F92F0FCBC900C603CA /* reader_writer_lock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECA5AF01CE759B324251A9F2 /* reader_writer_lock.cpp */; };
+		84D8D5FA2F0FCBC900C603CA /* market.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47BF40308760DC08F711F620 /* market.cpp */; };
+		84D8D5FB2F0FCBC900C603CA /* large_objects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B188CEC1ECDD46CCA368B026 /* large_objects.cpp */; };
+		84D8D5FC2F0FCBC900C603CA /* spin_rw_mutex_v2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E406070D3FFE200D01A278F7 /* spin_rw_mutex_v2.cpp */; };
+		84D8D5FD2F0FCBC900C603CA /* frontend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64CE98BA6F61479D8954C692 /* frontend.cpp */; };
+		84D8D5FE2F0FCBC900C603CA /* backref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FA82E6A0DC08784B4965ADD /* backref.cpp */; };
+		84D8D5FF2F0FCBC900C603CA /* task.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 725B7FD2CE6A51044920C381 /* task.cpp */; };
+		84D8D6002F0FCBC900C603CA /* concurrent_vector_v2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5B5BECF407F813172E26054 /* concurrent_vector_v2.cpp */; };
+		84D8D6012F0FCBC900C603CA /* governor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED326D489F5A70369CCA2CC2 /* governor.cpp */; };
+		84D8D6022F0FCBC900C603CA /* scheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E18A81D15FE0408FE0361B /* scheduler.cpp */; };
+		84D8D6032F0FCBC900C603CA /* critical_section.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54D38D18120F98D190E7E9DD /* critical_section.cpp */; };
+		84D8D6042F0FCBC900C603CA /* task_v2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D73FAA504CEF847AADBBF50 /* task_v2.cpp */; };
+		84D8D6052F0FCBC900C603CA /* concurrent_vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A425FBCEA801674D2C49A5 /* concurrent_vector.cpp */; };
+		84D8D6062F0FCBC900C603CA /* observer_proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7B19DADC76DD98E8C9DFC4F /* observer_proxy.cpp */; };
+		84D8D6072F0FCBC900C603CA /* arena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8F18B8D2AD5049DAE861683 /* arena.cpp */; };
+		84D8D6082F0FCBC900C603CA /* mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36FF5B6FEF52FC62FFA00C5 /* mutex.cpp */; };
+		84D8D6092F0FCBC900C603CA /* tbb_statistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C099FEB8007C6686C877CA6 /* tbb_statistics.cpp */; };
+		84D8D60A2F0FCBC900C603CA /* queuing_mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C6DD986F30018FEB580AA79 /* queuing_mutex.cpp */; };
+		84D8D60B2F0FCBC900C603CA /* x86_rtm_rw_mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE87E103235C461D6D15AB76 /* x86_rtm_rw_mutex.cpp */; };
+		84D8D60C2F0FCBC900C603CA /* rml_tbb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A78BC56E4C1E9DEEAAC41FAA /* rml_tbb.cpp */; };
+		84D8D60D2F0FCBC900C603CA /* concurrent_hash_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 005B1841AFFA2965084ED7EC /* concurrent_hash_map.cpp */; };
+		84D8D60E2F0FCBC900C603CA /* tbbmalloc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E53EE39D79DE8DF7DDCF14F /* tbbmalloc.cpp */; };
+		84D8D60F2F0FCBC900C603CA /* concurrent_monitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9228BD713D86F87D0A7D74 /* concurrent_monitor.cpp */; };
+		84D8D6102F0FCBC900C603CA /* tbb_misc_ex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03DA35EE5A15F13EC681A153 /* tbb_misc_ex.cpp */; };
+		84D8D6112F0FCBC900C603CA /* rml_server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19C2F91B2634DA6B3D5984B0 /* rml_server.cpp */; };
+		84D8D6122F0FCBC900C603CA /* task_group_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5485C6C4B093B876B709715 /* task_group_context.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		005B1841AFFA2965084ED7EC /* concurrent_hash_map.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = concurrent_hash_map.cpp; path = ../src/tbb/concurrent_hash_map.cpp; sourceTree = SOURCE_ROOT; };
+		03DA35EE5A15F13EC681A153 /* tbb_misc_ex.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = tbb_misc_ex.cpp; path = ../src/tbb/tbb_misc_ex.cpp; sourceTree = SOURCE_ROOT; };
+		0C6DD986F30018FEB580AA79 /* queuing_mutex.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = queuing_mutex.cpp; path = ../src/tbb/queuing_mutex.cpp; sourceTree = SOURCE_ROOT; };
+		134D503949948A615CB3503F /* condition_variable.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = condition_variable.cpp; path = ../src/tbb/condition_variable.cpp; sourceTree = SOURCE_ROOT; };
+		19C2F91B2634DA6B3D5984B0 /* rml_server.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = rml_server.cpp; path = ../src/rml/server/rml_server.cpp; sourceTree = SOURCE_ROOT; };
+		23286E57BC7BA5590493FFFD /* private_server.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = private_server.cpp; path = ../src/tbb/private_server.cpp; sourceTree = SOURCE_ROOT; };
+		23E18A81D15FE0408FE0361B /* scheduler.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = scheduler.cpp; path = ../src/tbb/scheduler.cpp; sourceTree = SOURCE_ROOT; };
+		2D73FAA504CEF847AADBBF50 /* task_v2.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = task_v2.cpp; path = ../src/old/task_v2.cpp; sourceTree = SOURCE_ROOT; };
+		30A425FBCEA801674D2C49A5 /* concurrent_vector.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = concurrent_vector.cpp; path = ../src/tbb/concurrent_vector.cpp; sourceTree = SOURCE_ROOT; };
+		363A4AAF1BC9E6AE35311C0C /* pipeline.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = pipeline.cpp; path = ../src/tbb/pipeline.cpp; sourceTree = SOURCE_ROOT; };
+		47BF40308760DC08F711F620 /* market.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = market.cpp; path = ../src/tbb/market.cpp; sourceTree = SOURCE_ROOT; };
+		4E0DD0C3A8FC0236C7B69467 /* cache_aligned_allocator.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = cache_aligned_allocator.cpp; path = ../src/tbb/cache_aligned_allocator.cpp; sourceTree = SOURCE_ROOT; };
+		54D38D18120F98D190E7E9DD /* critical_section.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = critical_section.cpp; path = ../src/tbb/critical_section.cpp; sourceTree = SOURCE_ROOT; };
+		5FA82E6A0DC08784B4965ADD /* backref.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = backref.cpp; path = ../src/tbbmalloc/backref.cpp; sourceTree = SOURCE_ROOT; };
+		64CE98BA6F61479D8954C692 /* frontend.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = frontend.cpp; path = ../src/tbbmalloc/frontend.cpp; sourceTree = SOURCE_ROOT; };
+		6A9228BD713D86F87D0A7D74 /* concurrent_monitor.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = concurrent_monitor.cpp; path = ../src/tbb/concurrent_monitor.cpp; sourceTree = SOURCE_ROOT; };
+		6E53EE39D79DE8DF7DDCF14F /* tbbmalloc.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = tbbmalloc.cpp; path = ../src/tbbmalloc/tbbmalloc.cpp; sourceTree = SOURCE_ROOT; };
+		719BEFFD039E0FDA1C5ACB55 /* spin_mutex.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = spin_mutex.cpp; path = ../src/tbb/spin_mutex.cpp; sourceTree = SOURCE_ROOT; };
+		725B7FD2CE6A51044920C381 /* task.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = task.cpp; path = ../src/tbb/task.cpp; sourceTree = SOURCE_ROOT; };
+		776BC39F0FFF64D0A9783C2B /* recursive_mutex.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = recursive_mutex.cpp; path = ../src/tbb/recursive_mutex.cpp; sourceTree = SOURCE_ROOT; };
+		84D8D5582F0EE95400C603CA /* libIntel-TBB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libIntel-TBB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		89B77C086C1BC06214202682 /* itt_notify.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = itt_notify.cpp; path = ../src/tbb/itt_notify.cpp; sourceTree = SOURCE_ROOT; };
+		8A109D7994AEFBCF9F29AC93 /* spin_rw_mutex.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = spin_rw_mutex.cpp; path = ../src/tbb/spin_rw_mutex.cpp; sourceTree = SOURCE_ROOT; };
+		8C099FEB8007C6686C877CA6 /* tbb_statistics.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = tbb_statistics.cpp; path = ../src/tbb/tbb_statistics.cpp; sourceTree = SOURCE_ROOT; };
+		A36FF5B6FEF52FC62FFA00C5 /* mutex.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = mutex.cpp; path = ../src/tbb/mutex.cpp; sourceTree = SOURCE_ROOT; };
+		A5485C6C4B093B876B709715 /* task_group_context.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = task_group_context.cpp; path = ../src/tbb/task_group_context.cpp; sourceTree = SOURCE_ROOT; };
+		A78BC56E4C1E9DEEAAC41FAA /* rml_tbb.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = rml_tbb.cpp; path = ../src/rml/client/rml_tbb.cpp; sourceTree = SOURCE_ROOT; };
+		B188CEC1ECDD46CCA368B026 /* large_objects.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = large_objects.cpp; path = ../src/tbbmalloc/large_objects.cpp; sourceTree = SOURCE_ROOT; };
+		B8AD0855AFAAFAD3E8E0DE52 /* queuing_rw_mutex.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = queuing_rw_mutex.cpp; path = ../src/tbb/queuing_rw_mutex.cpp; sourceTree = SOURCE_ROOT; };
+		C3B7E845D6FB1D6862A5C7B4 /* tbb_misc.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = tbb_misc.cpp; path = ../src/tbb/tbb_misc.cpp; sourceTree = SOURCE_ROOT; };
+		C5B5BECF407F813172E26054 /* concurrent_vector_v2.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = concurrent_vector_v2.cpp; path = ../src/old/concurrent_vector_v2.cpp; sourceTree = SOURCE_ROOT; };
+		CC88799DB037CD81D2CEE716 /* tbb_main.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = tbb_main.cpp; path = ../src/tbb/tbb_main.cpp; sourceTree = SOURCE_ROOT; };
+		CE87E103235C461D6D15AB76 /* x86_rtm_rw_mutex.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = x86_rtm_rw_mutex.cpp; path = ../src/tbb/x86_rtm_rw_mutex.cpp; sourceTree = SOURCE_ROOT; };
+		D7B19DADC76DD98E8C9DFC4F /* observer_proxy.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = observer_proxy.cpp; path = ../src/tbb/observer_proxy.cpp; sourceTree = SOURCE_ROOT; };
+		D8F18B8D2AD5049DAE861683 /* arena.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = arena.cpp; path = ../src/tbb/arena.cpp; sourceTree = SOURCE_ROOT; };
+		D93D8B05B7C5B5D73C3A758B /* semaphore.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = semaphore.cpp; path = ../src/tbb/semaphore.cpp; sourceTree = SOURCE_ROOT; };
+		DA4EBCCD5D75196FAB4A4E77 /* tbb_thread.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = tbb_thread.cpp; path = ../src/tbb/tbb_thread.cpp; sourceTree = SOURCE_ROOT; };
+		E1F9BE2966FC169558D6DF1C /* backend.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = backend.cpp; path = ../src/tbbmalloc/backend.cpp; sourceTree = SOURCE_ROOT; };
+		E3883B11E50804CF020FE329 /* concurrent_queue_v2.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = concurrent_queue_v2.cpp; path = ../src/old/concurrent_queue_v2.cpp; sourceTree = SOURCE_ROOT; };
+		E406070D3FFE200D01A278F7 /* spin_rw_mutex_v2.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = spin_rw_mutex_v2.cpp; path = ../src/old/spin_rw_mutex_v2.cpp; sourceTree = SOURCE_ROOT; };
+		EC7AD16C3845C0C5C06608C7 /* concurrent_queue.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = concurrent_queue.cpp; path = ../src/tbb/concurrent_queue.cpp; sourceTree = SOURCE_ROOT; };
+		ECA5AF01CE759B324251A9F2 /* reader_writer_lock.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = reader_writer_lock.cpp; path = ../src/tbb/reader_writer_lock.cpp; sourceTree = SOURCE_ROOT; };
+		ED326D489F5A70369CCA2CC2 /* governor.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = governor.cpp; path = ../src/tbb/governor.cpp; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84D8D5562F0EE95400C603CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		84D8D53D2F0EE8BC00C603CA = {
+			isa = PBXGroup;
+			children = (
+				E3883B11E50804CF020FE329 /* concurrent_queue_v2.cpp */,
+				C5B5BECF407F813172E26054 /* concurrent_vector_v2.cpp */,
+				E406070D3FFE200D01A278F7 /* spin_rw_mutex_v2.cpp */,
+				2D73FAA504CEF847AADBBF50 /* task_v2.cpp */,
+				A78BC56E4C1E9DEEAAC41FAA /* rml_tbb.cpp */,
+				19C2F91B2634DA6B3D5984B0 /* rml_server.cpp */,
+				E1F9BE2966FC169558D6DF1C /* backend.cpp */,
+				5FA82E6A0DC08784B4965ADD /* backref.cpp */,
+				64CE98BA6F61479D8954C692 /* frontend.cpp */,
+				B188CEC1ECDD46CCA368B026 /* large_objects.cpp */,
+				6E53EE39D79DE8DF7DDCF14F /* tbbmalloc.cpp */,
+				D8F18B8D2AD5049DAE861683 /* arena.cpp */,
+				4E0DD0C3A8FC0236C7B69467 /* cache_aligned_allocator.cpp */,
+				005B1841AFFA2965084ED7EC /* concurrent_hash_map.cpp */,
+				6A9228BD713D86F87D0A7D74 /* concurrent_monitor.cpp */,
+				EC7AD16C3845C0C5C06608C7 /* concurrent_queue.cpp */,
+				30A425FBCEA801674D2C49A5 /* concurrent_vector.cpp */,
+				134D503949948A615CB3503F /* condition_variable.cpp */,
+				54D38D18120F98D190E7E9DD /* critical_section.cpp */,
+				ED326D489F5A70369CCA2CC2 /* governor.cpp */,
+				89B77C086C1BC06214202682 /* itt_notify.cpp */,
+				47BF40308760DC08F711F620 /* market.cpp */,
+				A36FF5B6FEF52FC62FFA00C5 /* mutex.cpp */,
+				D7B19DADC76DD98E8C9DFC4F /* observer_proxy.cpp */,
+				363A4AAF1BC9E6AE35311C0C /* pipeline.cpp */,
+				23286E57BC7BA5590493FFFD /* private_server.cpp */,
+				0C6DD986F30018FEB580AA79 /* queuing_mutex.cpp */,
+				B8AD0855AFAAFAD3E8E0DE52 /* queuing_rw_mutex.cpp */,
+				ECA5AF01CE759B324251A9F2 /* reader_writer_lock.cpp */,
+				776BC39F0FFF64D0A9783C2B /* recursive_mutex.cpp */,
+				23E18A81D15FE0408FE0361B /* scheduler.cpp */,
+				D93D8B05B7C5B5D73C3A758B /* semaphore.cpp */,
+				719BEFFD039E0FDA1C5ACB55 /* spin_mutex.cpp */,
+				8A109D7994AEFBCF9F29AC93 /* spin_rw_mutex.cpp */,
+				725B7FD2CE6A51044920C381 /* task.cpp */,
+				A5485C6C4B093B876B709715 /* task_group_context.cpp */,
+				CC88799DB037CD81D2CEE716 /* tbb_main.cpp */,
+				C3B7E845D6FB1D6862A5C7B4 /* tbb_misc.cpp */,
+				03DA35EE5A15F13EC681A153 /* tbb_misc_ex.cpp */,
+				8C099FEB8007C6686C877CA6 /* tbb_statistics.cpp */,
+				DA4EBCCD5D75196FAB4A4E77 /* tbb_thread.cpp */,
+				CE87E103235C461D6D15AB76 /* x86_rtm_rw_mutex.cpp */,
+				84D8D5472F0EE8BC00C603CA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		84D8D5472F0EE8BC00C603CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84D8D5582F0EE95400C603CA /* libIntel-TBB.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		84D8D5542F0EE95400C603CA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		84D8D5572F0EE95400C603CA /* Intel-TBB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84D8D5622F0EE95400C603CA /* Build configuration list for PBXNativeTarget "Intel-TBB" */;
+			buildPhases = (
+				84D8D5542F0EE95400C603CA /* Headers */,
+				84D8D5552F0EE95400C603CA /* Sources */,
+				84D8D5562F0EE95400C603CA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Intel-TBB";
+			productName = "Intel-TBB";
+			productReference = 84D8D5582F0EE95400C603CA /* libIntel-TBB.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84D8D53E2F0EE8BC00C603CA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					84D8D5572F0EE95400C603CA = {
+						CreatedOnToolsVersion = 26.2;
+					};
+				};
+			};
+			buildConfigurationList = 84D8D5412F0EE8BC00C603CA /* Build configuration list for PBXProject "Intel-TBB" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 84D8D53D2F0EE8BC00C603CA;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 84D8D5472F0EE8BC00C603CA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84D8D5572F0EE95400C603CA /* Intel-TBB */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84D8D5552F0EE95400C603CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84D8D5E92F0FCBC900C603CA /* spin_mutex.cpp in Sources */,
+				84D8D5EA2F0FCBC900C603CA /* private_server.cpp in Sources */,
+				84D8D5EB2F0FCBC900C603CA /* itt_notify.cpp in Sources */,
+				84D8D5EC2F0FCBC900C603CA /* tbb_main.cpp in Sources */,
+				84D8D5ED2F0FCBC900C603CA /* concurrent_queue.cpp in Sources */,
+				84D8D5EE2F0FCBC900C603CA /* tbb_misc.cpp in Sources */,
+				84D8D5EF2F0FCBC900C603CA /* concurrent_queue_v2.cpp in Sources */,
+				84D8D5F02F0FCBC900C603CA /* recursive_mutex.cpp in Sources */,
+				84D8D5F12F0FCBC900C603CA /* tbb_thread.cpp in Sources */,
+				84D8D5F22F0FCBC900C603CA /* semaphore.cpp in Sources */,
+				84D8D5F32F0FCBC900C603CA /* backend.cpp in Sources */,
+				84D8D5F42F0FCBC900C603CA /* pipeline.cpp in Sources */,
+				84D8D5F52F0FCBC900C603CA /* condition_variable.cpp in Sources */,
+				84D8D5F62F0FCBC900C603CA /* cache_aligned_allocator.cpp in Sources */,
+				84D8D5F72F0FCBC900C603CA /* queuing_rw_mutex.cpp in Sources */,
+				84D8D5F82F0FCBC900C603CA /* spin_rw_mutex.cpp in Sources */,
+				84D8D5F92F0FCBC900C603CA /* reader_writer_lock.cpp in Sources */,
+				84D8D5FA2F0FCBC900C603CA /* market.cpp in Sources */,
+				84D8D5FB2F0FCBC900C603CA /* large_objects.cpp in Sources */,
+				84D8D5FC2F0FCBC900C603CA /* spin_rw_mutex_v2.cpp in Sources */,
+				84D8D5FD2F0FCBC900C603CA /* frontend.cpp in Sources */,
+				84D8D5FE2F0FCBC900C603CA /* backref.cpp in Sources */,
+				84D8D5FF2F0FCBC900C603CA /* task.cpp in Sources */,
+				84D8D6002F0FCBC900C603CA /* concurrent_vector_v2.cpp in Sources */,
+				84D8D6012F0FCBC900C603CA /* governor.cpp in Sources */,
+				84D8D6022F0FCBC900C603CA /* scheduler.cpp in Sources */,
+				84D8D6032F0FCBC900C603CA /* critical_section.cpp in Sources */,
+				84D8D6042F0FCBC900C603CA /* task_v2.cpp in Sources */,
+				84D8D6052F0FCBC900C603CA /* concurrent_vector.cpp in Sources */,
+				84D8D6062F0FCBC900C603CA /* observer_proxy.cpp in Sources */,
+				84D8D6072F0FCBC900C603CA /* arena.cpp in Sources */,
+				84D8D6082F0FCBC900C603CA /* mutex.cpp in Sources */,
+				84D8D6092F0FCBC900C603CA /* tbb_statistics.cpp in Sources */,
+				84D8D60A2F0FCBC900C603CA /* queuing_mutex.cpp in Sources */,
+				84D8D60B2F0FCBC900C603CA /* x86_rtm_rw_mutex.cpp in Sources */,
+				84D8D60C2F0FCBC900C603CA /* rml_tbb.cpp in Sources */,
+				84D8D60D2F0FCBC900C603CA /* concurrent_hash_map.cpp in Sources */,
+				84D8D60E2F0FCBC900C603CA /* tbbmalloc.cpp in Sources */,
+				84D8D60F2F0FCBC900C603CA /* concurrent_monitor.cpp in Sources */,
+				84D8D6102F0FCBC900C603CA /* tbb_misc_ex.cpp in Sources */,
+				84D8D6112F0FCBC900C603CA /* rml_server.cpp in Sources */,
+				84D8D6122F0FCBC900C603CA /* task_group_context.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		84D8D54F2F0EE8BC00C603CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = c17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		84D8D5502F0EE8BC00C603CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = c17;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"NDEBUG=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		84D8D5602F0EE95400C603CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_X86_VECTOR_INSTRUCTIONS = avx2;
+				CODE_SIGN_STYLE = Automatic;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = c17;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"TBB_SUPPRESS_DEPRECATED_MESSAGES=1",
+					"__TBB_BUILD=1",
+					"__TBBMALLOC_BUILD=1",
+					"__TBB_NO_IMPLICIT_LINKAGE=1",
+					"__TBBMALLOC_NO_IMPLICIT_LINKAGE=1",
+					USE_PTHREAD,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../src",
+					"$(PROJECT_DIR)/../src/rml/include",
+					"$(PROJECT_DIR)/../include",
+					"$(PROJECT_DIR)/../build/vs2013",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				"OTHER_CFLAGS[arch=i386]" = (
+					"$(inherited)",
+					"-mf16c",
+					"-mfma",
+				);
+				"OTHER_CFLAGS[arch=x86_64]" = (
+					"$(inherited)",
+					"-mf16c",
+					"-mfma",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		84D8D5612F0EE95400C603CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_X86_VECTOR_INSTRUCTIONS = avx2;
+				CODE_SIGN_STYLE = Automatic;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = c17;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"TBB_SUPPRESS_DEPRECATED_MESSAGES=1",
+					"__TBB_BUILD=1",
+					"__TBBMALLOC_BUILD=1",
+					"__TBB_NO_IMPLICIT_LINKAGE=1",
+					"__TBBMALLOC_NO_IMPLICIT_LINKAGE=1",
+					USE_PTHREAD,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../src",
+					"$(PROJECT_DIR)/../src/rml/include",
+					"$(PROJECT_DIR)/../include",
+					"$(PROJECT_DIR)/../build/vs2013",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				"OTHER_CFLAGS[arch=i386]" = (
+					"$(inherited)",
+					"-mf16c",
+					"-mfma",
+				);
+				"OTHER_CFLAGS[arch=x86_64]" = (
+					"$(inherited)",
+					"-mf16c",
+					"-mfma",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84D8D5412F0EE8BC00C603CA /* Build configuration list for PBXProject "Intel-TBB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84D8D54F2F0EE8BC00C603CA /* Debug */,
+				84D8D5502F0EE8BC00C603CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84D8D5622F0EE95400C603CA /* Build configuration list for PBXNativeTarget "Intel-TBB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84D8D5602F0EE95400C603CA /* Debug */,
+				84D8D5612F0EE95400C603CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84D8D53E2F0EE8BC00C603CA /* Project object */;
+}

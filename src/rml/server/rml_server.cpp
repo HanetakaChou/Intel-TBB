@@ -1041,7 +1041,7 @@ protected:
     void request_close_connection( bool existing );
 #else
     void do_open() {my_thread_map.bind();}
-    void request_close_connection( bool );
+    void request_close_connection( bool ) override;
 #endif /* RML_USE_WCRM */
     //! Make destructor virtual
     virtual ~generic_connection() {}
@@ -1302,10 +1302,16 @@ retry:
     }
 
     if( exist )
+    {
         if( conn.has_slack() )
+        {    
             goto retry;
+        }
+    }
     else
+    {
         all_visited_at_least_once = true;
+    }
     return false;
 }
 

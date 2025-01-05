@@ -82,7 +82,11 @@ namespace tbb
             //! The internal routine to undo automatic initialization.
             /** The signature is written with void* so that the routine
                 can be the destructor argument to pthread_key_create. */
+#if USE_PTHREAD
             static void auto_terminate(void *scheduler);
+#else
+            static void NTAPI auto_terminate(void *scheduler);
+#endif
 
         public:
             static unsigned default_num_threads()

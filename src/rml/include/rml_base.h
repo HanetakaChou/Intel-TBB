@@ -176,7 +176,7 @@ namespace rml
 
     protected:
         //! Pointer to routine that waits for server to indicate when client can close itself.
-        status_type (*my_wait_to_close_routine)(factory &);
+        void (*my_wait_to_close_routine)(factory &);
 
     public:
         //! Library handle for use by RML.

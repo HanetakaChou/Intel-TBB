@@ -17,12 +17,6 @@
 class LimitTLSKeysTo
 {
 #if _WIN32 || _WIN64
-#if __TBB_WIN8UI_SUPPORT && !defined(TLS_OUT_OF_INDEXES)
-// for SDKs for Windows*8 Store Apps that did not redirect TLS to FLS
-#define TlsAlloc() FlsAlloc(NULL)
-#define TlsFree FlsFree
-#define TLS_OUT_OF_INDEXES FLS_OUT_OF_INDEXES
-#endif
     typedef DWORD handle;
 #else // _WIN32 || _WIN64
     typedef pthread_key_t handle;
@@ -38,8 +32,8 @@ public:
         for (lastUsedIdx = 0; lastUsedIdx < LIMIT; lastUsedIdx++)
         {
 #if _WIN32 || _WIN64
-            handle h = TlsAlloc();
-            if (h == TLS_OUT_OF_INDEXES)
+            handle h = FlsAlloc(NULL);
+            if (h == FLS_OUT_OF_INDEXES)
 #else
             int setspecific_dummy = 10;
             if (pthread_key_create(&handles[lastUsedIdx], NULL) != 0)
@@ -58,7 +52,7 @@ public:
         for (; keep_keys > 0; keep_keys--, lastUsedIdx--)
         {
 #if _WIN32 || _WIN64
-            TlsFree(handles[lastUsedIdx]);
+            BOOL ret = !FlsFree(handles[lastUsedIdx]); // fail is zero
 #else
             int ret = pthread_key_delete(handles[lastUsedIdx]);
             ASSERT(!ret, "Can't delete a key");
@@ -71,11 +65,11 @@ public:
         for (int i = 0; i <= lastUsedIdx; i++)
         {
 #if _WIN32 || _WIN64
-            TlsFree(handles[i]);
+            BOOL ret = !FlsFree(handles[i]); // fail is zero
 #else
             int ret = pthread_key_delete(handles[i]);
-            ASSERT(!ret, "Can't delete a key");
 #endif
+            ASSERT(!ret, "Can't delete a key");
         }
         lastUsedIdx = 0;
     }

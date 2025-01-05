@@ -126,33 +126,20 @@
 //! Type for an assertion handler
 typedef void (*assertion_handler_type)(const char *filename, int line, const char *expression, const char *comment);
 
-#if __TBBMALLOC_BUILD
-namespace rml
-{
-    namespace internal
-    {
-#define __TBB_ASSERT_RELEASE(predicate, message) ((predicate) ? ((void)0) : rml::internal::assertion_failure(__FILE__, __LINE__, #predicate, message))
-#else
 namespace tbb
 {
 #define __TBB_ASSERT_RELEASE(predicate, message) ((predicate) ? ((void)0) : tbb::assertion_failure(__FILE__, __LINE__, #predicate, message))
-#endif
 
-        //! Set assertion handler and return previous value of it.
-        assertion_handler_type __TBB_EXPORTED_FUNC set_assertion_handler(assertion_handler_type new_handler);
+    //! Set assertion handler and return previous value of it.
+    assertion_handler_type __TBB_EXPORTED_FUNC set_assertion_handler(assertion_handler_type new_handler);
 
-        //! Process an assertion failure.
-        /** Normally called from __TBB_ASSERT macro.
-            If assertion handler is null, print message for assertion failure and abort.
-            Otherwise call the assertion handler. */
-        void __TBB_EXPORTED_FUNC assertion_failure(const char *filename, int line, const char *expression, const char *comment);
+    //! Process an assertion failure.
+    /** Normally called from __TBB_ASSERT macro.
+        If assertion handler is null, print message for assertion failure and abort.
+        Otherwise call the assertion handler. */
+    void __TBB_EXPORTED_FUNC assertion_failure(const char *filename, int line, const char *expression, const char *comment);
 
-#if __TBBMALLOC_BUILD
-    }
-} // namespace rml::internal
-#else
 } // namespace tbb
-#endif
 
 #if TBB_USE_ASSERT
 

@@ -20,5 +20,14 @@ EXPORTS
 #else
 #include "win32-tbb-export.lst"
 #endif
-
-
+	scalable_calloc
+	scalable_free
+	scalable_malloc
+	scalable_realloc
+	scalable_posix_memalign
+	scalable_aligned_malloc
+	scalable_aligned_realloc
+	scalable_aligned_free
+	scalable_msize
+	scalable_allocation_mode
+	scalable_allocation_command

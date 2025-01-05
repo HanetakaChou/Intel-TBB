@@ -21,7 +21,6 @@
 
 #if !defined(__TBB_HardwareConcurrency)
 
-#include "dynamic_link.h"
 #include <stdio.h>
 #include <limits.h>
 
@@ -53,14 +52,6 @@ namespace tbb
     {
 
 #if __TBB_USE_OS_AFFINITY_SYSCALL
-
-#if __linux__
-        // Handlers for interoperation with libiomp
-        static int (*libiomp_try_restoring_original_mask)();
-        // Table for mapping to libiomp entry points
-        static const dynamic_link_descriptor iompLinkTable[] = {
-            DLD_NOWEAK(kmp_set_thread_affinity_mask_initial, libiomp_try_restoring_original_mask)};
-#endif
 
         static void set_thread_affinity_mask(size_t maskSize, const basic_mask_t *threadMask)
         {
@@ -185,28 +176,7 @@ namespace tbb
             {
                 // We have found the mask size and captured the process affinity mask into processMask.
                 num_masks = numMasks; // do here because it's needed for affinity_helper to work
-#if __linux__
-                // For better coexistence with libiomp which might have changed the mask already,
-                // check for its presence and ask it to restore the mask.
-                dynamic_link_handle libhandle;
-                if (dynamic_link("libiomp5.so", iompLinkTable, 1, &libhandle, DYNAMIC_LINK_GLOBAL))
-                {
-                    // We have found the symbol provided by libiomp5 for restoring original thread affinity.
-                    affinity_helper affhelp;
-                    affhelp.protect_affinity_mask(/*restore_process_mask=*/false);
-                    if (libiomp_try_restoring_original_mask() == 0)
-                    {
-                        // Now we have the right mask to capture, restored by libiomp.
-                        const int curMaskSize = BasicMaskSize * numMasks;
-                        memset(processMask, 0, curMaskSize);
-                        get_thread_affinity_mask(curMaskSize, processMask);
-                    }
-                    else
-                        affhelp.dismiss(); // thread mask has not changed
-                    dynamic_unlink(libhandle);
-                    // Destructor of affinity_helper restores the thread mask (unless dismissed).
-                }
-#endif
+
                 for (int m = 0; availableProcs < maxProcs && m < numMasks; ++m)
                 {
                     for (size_t i = 0; (availableProcs < maxProcs) && (i < BasicMaskSize * CHAR_BIT); ++i)
@@ -302,12 +272,7 @@ namespace tbb
 
         ProcessorGroupInfo theProcessorGroups[MaxProcessorGroups];
 
-        struct TBB_GROUP_AFFINITY
-        {
-            DWORD_PTR Mask;
-            WORD Group;
-            WORD Reserved[3];
-        };
+        typedef GROUP_AFFINITY TBB_GROUP_AFFINITY;
 
         static DWORD(WINAPI *TBB_GetActiveProcessorCount)(WORD groupIndex) = NULL;
         static WORD(WINAPI *TBB_GetActiveProcessorGroupCount)() = NULL;
@@ -315,18 +280,13 @@ namespace tbb
                                                         const TBB_GROUP_AFFINITY *newAff, TBB_GROUP_AFFINITY *prevAff);
         static BOOL(WINAPI *TBB_GetThreadGroupAffinity)(HANDLE hThread, TBB_GROUP_AFFINITY *);
 
-        static const dynamic_link_descriptor ProcessorGroupsApiLinkTable[] = {
-            DLD(GetActiveProcessorCount, TBB_GetActiveProcessorCount), DLD(GetActiveProcessorGroupCount, TBB_GetActiveProcessorGroupCount), DLD(SetThreadGroupAffinity, TBB_SetThreadGroupAffinity), DLD(GetThreadGroupAffinity, TBB_GetThreadGroupAffinity)};
-
         static void initialize_hardware_concurrency_info()
         {
-#if __TBB_WIN8UI_SUPPORT
-            // For these applications processor groups info is unavailable
-            // Setting up a number of processors for one processor group
-            theProcessorGroups[0].numProcs = theProcessorGroups[0].numProcsRunningTotal = std::thread::hardware_concurrency();
-#else  /* __TBB_WIN8UI_SUPPORT */
-            dynamic_link("Kernel32.dll", ProcessorGroupsApiLinkTable,
-                         sizeof(ProcessorGroupsApiLinkTable) / sizeof(dynamic_link_descriptor));
+            TBB_GetActiveProcessorCount = GetActiveProcessorCount;
+            TBB_GetActiveProcessorGroupCount = GetActiveProcessorGroupCount;
+            TBB_SetThreadGroupAffinity = SetThreadGroupAffinity;
+            TBB_GetThreadGroupAffinity = GetThreadGroupAffinity;
+
             SYSTEM_INFO si;
             GetNativeSystemInfo(&si);
             DWORD_PTR pam, sam, m = 1;
@@ -367,7 +327,6 @@ namespace tbb
                     __TBB_ASSERT(nprocs == (int)TBB_GetActiveProcessorCount(TBB_ALL_PROCESSOR_GROUPS), NULL);
                 }
             }
-#endif /* __TBB_WIN8UI_SUPPORT */
 
             PrintExtraVersionInfo("Processor groups", "%d", ProcessorGroupInfo::NumGroups);
             if (ProcessorGroupInfo::NumGroups > 1)

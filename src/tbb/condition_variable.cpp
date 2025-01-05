@@ -18,7 +18,6 @@
 #include "tbb/compat/condition_variable"
 #include "tbb/atomic.h"
 #include "tbb_misc.h"
-#include "dynamic_link.h"
 #include "itt_notify.h"
 
 namespace tbb
@@ -135,28 +134,14 @@ namespace tbb
         static void(WINAPI *__TBB_condvar_notify_all)(PCONDITION_VARIABLE) = (void(WINAPI *)(PCONDITION_VARIABLE)) & wake_all_condition_variable_using_event;
         static void(WINAPI *__TBB_destroy_condvar)(PCONDITION_VARIABLE) = (void(WINAPI *)(PCONDITION_VARIABLE)) & destroy_condvar_using_event;
 
-        //! Table describing how to link the handlers.
-        static const dynamic_link_descriptor CondVarLinkTable[] = {
-            DLD(InitializeConditionVariable, __TBB_init_condvar),
-            DLD(SleepConditionVariableCS, __TBB_condvar_wait),
-            DLD(WakeConditionVariable, __TBB_condvar_notify_one),
-            DLD(WakeAllConditionVariable, __TBB_condvar_notify_all)};
-
         void init_condvar_module()
         {
             __TBB_ASSERT((uintptr_t)__TBB_init_condvar == (uintptr_t)&init_condvar_using_event, NULL);
-#if __TBB_WIN8UI_SUPPORT
-            // We expect condition variables to be always available for Windows* store applications,
-            // so there is no need to check presence and use alternative implementation.
-            __TBB_init_condvar = (void(WINAPI *)(PCONDITION_VARIABLE)) & InitializeConditionVariable;
-            __TBB_condvar_wait = (BOOL(WINAPI *)(PCONDITION_VARIABLE, LPCRITICAL_SECTION, DWORD)) & SleepConditionVariableCS;
-            __TBB_condvar_notify_one = (void(WINAPI *)(PCONDITION_VARIABLE)) & WakeConditionVariable;
-            __TBB_condvar_notify_all = (void(WINAPI *)(PCONDITION_VARIABLE)) & WakeAllConditionVariable;
-            __TBB_destroy_condvar = (void(WINAPI *)(PCONDITION_VARIABLE)) & destroy_condvar_noop;
-#else
-            if (dynamic_link("Kernel32.dll", CondVarLinkTable, 4))
-                __TBB_destroy_condvar = (void(WINAPI *)(PCONDITION_VARIABLE)) & destroy_condvar_noop;
-#endif
+            __TBB_init_condvar = InitializeConditionVariable;
+            __TBB_condvar_wait = SleepConditionVariableCS;
+            __TBB_condvar_notify_one = WakeConditionVariable;
+            __TBB_condvar_notify_all = WakeAllConditionVariable;
+            __TBB_destroy_condvar = destroy_condvar_noop;
         }
 #endif /* _WIN32||_WIN64 */
 
