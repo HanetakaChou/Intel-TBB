@@ -19,7 +19,10 @@
 
 #if _WIN32 || _WIN64
 
-#include <windows.h>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <sdkddkver.h>
+#include <Windows.h>
 
 #if _WIN32_WINNT < 0x0600
 // The following Windows API function is declared explicitly;
@@ -29,25 +32,25 @@
 #else
 #define __TBB_WINBASEAPI WINBASEAPI
 #endif
-__TBB_WINBASEAPI BOOL WINAPI TryEnterCriticalSection( LPCRITICAL_SECTION );
-__TBB_WINBASEAPI BOOL WINAPI InitializeCriticalSectionAndSpinCount( LPCRITICAL_SECTION, DWORD );
+__TBB_WINBASEAPI BOOL WINAPI TryEnterCriticalSection(LPCRITICAL_SECTION);
+__TBB_WINBASEAPI BOOL WINAPI InitializeCriticalSectionAndSpinCount(LPCRITICAL_SECTION, DWORD);
 // Overloading WINBASEAPI macro and using local functions missing in Windows XP/2003
 #define InitializeCriticalSectionEx inlineInitializeCriticalSectionEx
 #define CreateSemaphoreEx inlineCreateSemaphoreEx
 #define CreateEventEx inlineCreateEventEx
-inline BOOL WINAPI inlineInitializeCriticalSectionEx( LPCRITICAL_SECTION lpCriticalSection, DWORD dwSpinCount, DWORD )
+inline BOOL WINAPI inlineInitializeCriticalSectionEx(LPCRITICAL_SECTION lpCriticalSection, DWORD dwSpinCount, DWORD)
 {
-    return InitializeCriticalSectionAndSpinCount( lpCriticalSection, dwSpinCount );
+    return InitializeCriticalSectionAndSpinCount(lpCriticalSection, dwSpinCount);
 }
-inline HANDLE WINAPI inlineCreateSemaphoreEx( LPSECURITY_ATTRIBUTES lpSemaphoreAttributes, LONG lInitialCount, LONG lMaximumCount, LPCTSTR lpName, DWORD, DWORD )
+inline HANDLE WINAPI inlineCreateSemaphoreEx(LPSECURITY_ATTRIBUTES lpSemaphoreAttributes, LONG lInitialCount, LONG lMaximumCount, LPCTSTR lpName, DWORD, DWORD)
 {
-    return CreateSemaphore( lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpName );
+    return CreateSemaphore(lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpName);
 }
-inline HANDLE WINAPI inlineCreateEventEx( LPSECURITY_ATTRIBUTES lpEventAttributes, LPCTSTR lpName, DWORD dwFlags, DWORD )
+inline HANDLE WINAPI inlineCreateEventEx(LPSECURITY_ATTRIBUTES lpEventAttributes, LPCTSTR lpName, DWORD dwFlags, DWORD)
 {
-    BOOL manual_reset = dwFlags&0x00000001 ? TRUE : FALSE; // CREATE_EVENT_MANUAL_RESET
-    BOOL initial_set  = dwFlags&0x00000002 ? TRUE : FALSE; // CREATE_EVENT_INITIAL_SET
-    return CreateEvent( lpEventAttributes, manual_reset, initial_set, lpName );
+    BOOL manual_reset = dwFlags & 0x00000001 ? TRUE : FALSE; // CREATE_EVENT_MANUAL_RESET
+    BOOL initial_set = dwFlags & 0x00000002 ? TRUE : FALSE;  // CREATE_EVENT_INITIAL_SET
+    return CreateEvent(lpEventAttributes, manual_reset, initial_set, lpName);
 }
 #endif
 

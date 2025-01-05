@@ -19,7 +19,6 @@
 #include "tbb/tbb_allocator.h"
 #include "tbb/tbb_exception.h"
 #include "tbb_misc.h"
-#include "dynamic_link.h"
 #include <cstdlib>
 
 #if _WIN32 || _WIN64
@@ -28,13 +27,6 @@
 #include <dlfcn.h>
 #endif /* _WIN32||_WIN64 */
 
-#if __TBB_WEAK_SYMBOLS_PRESENT
-
-#pragma weak scalable_malloc
-#pragma weak scalable_free
-#pragma weak scalable_aligned_malloc
-#pragma weak scalable_aligned_free
-
 extern "C"
 {
     void *scalable_malloc(size_t);
@@ -42,8 +34,6 @@ extern "C"
     void *scalable_aligned_malloc(size_t, size_t);
     void scalable_aligned_free(void *);
 }
-
-#endif /* __TBB_WEAK_SYMBOLS_PRESENT */
 
 namespace tbb
 {
@@ -81,33 +71,6 @@ namespace tbb
         //! Handler for padded memory deallocation
         static void (*padded_free_handler)(void *p) = &dummy_padded_free;
 
-        //! Table describing how to link the handlers.
-        static const dynamic_link_descriptor MallocLinkTable[] = {
-            DLD(scalable_malloc, MallocHandler),
-            DLD(scalable_free, FreeHandler),
-            DLD(scalable_aligned_malloc, padded_allocate_handler),
-            DLD(scalable_aligned_free, padded_free_handler),
-        };
-
-#if TBB_USE_DEBUG
-#define DEBUG_SUFFIX "_debug"
-#else
-#define DEBUG_SUFFIX
-#endif /* TBB_USE_DEBUG */
-
-// MALLOCLIB_NAME is the name of the TBB memory allocator library.
-#if _WIN32 || _WIN64
-#define MALLOCLIB_NAME "tbbmalloc" DEBUG_SUFFIX ".dll"
-#elif __APPLE__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".dylib"
-#elif __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __sun || _AIX || __ANDROID__
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX ".so"
-#elif __linux__ // Note that order of these #elif's is important!
-#define MALLOCLIB_NAME "libtbbmalloc" DEBUG_SUFFIX __TBB_STRING(.so.TBB_COMPATIBLE_INTERFACE_VERSION)
-#else
-#error Unknown OS
-#endif
-
         //! Initialize the allocation/free handler pointers.
         /** Caller is responsible for ensuring this routine is called exactly once.
             The routine attempts to dynamically link with the TBB memory allocator.
@@ -115,20 +78,12 @@ namespace tbb
         void initialize_handler_pointers()
         {
             __TBB_ASSERT(MallocHandler == &DummyMalloc, NULL);
-            bool success = dynamic_link(MALLOCLIB_NAME, MallocLinkTable, 4);
-            if (!success)
-            {
-                // If unsuccessful, set the handlers to the default routines.
-                // This must be done now, and not before FillDynamicLinks runs, because if other
-                // threads call the handlers, we want them to go through the DoOneTimeInitializations logic,
-                // which forces them to wait.
-                FreeHandler = &std::free;
-                MallocHandler = &std::malloc;
-                padded_allocate_handler = &padded_allocate;
-                padded_free_handler = &padded_free;
-            }
+            FreeHandler = scalable_free;
+            MallocHandler = scalable_malloc;
+            padded_allocate_handler = scalable_aligned_malloc;
+            padded_free_handler = scalable_aligned_free;
 #if !__TBB_RML_STATIC
-            PrintExtraVersionInfo("ALLOCATOR", success ? "scalable_malloc" : "malloc");
+            PrintExtraVersionInfo("ALLOCATOR", "scalable_malloc");
 #endif
         }
 
